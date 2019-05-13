@@ -1,0 +1,5 @@
+#ifndef CALCULATORMODE
+#define CALCULATORMODE
+
+#endif // CALCULATORMODE
+
