@@ -13,8 +13,20 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        AssemblyCalculator.cpp
+        AssemblyCalculator.cpp\
+        FloatOperations.s \
+        Conversions.s \
+        ClickableQLabel.cpp \
+        ClickableQLineEdit.cpp
 
-HEADERS  += AssemblyCalculator.hpp
+HEADERS  += AssemblyCalculator.hpp \
+    Operation.hpp \
+    CalculatorMode.hpp \
+    ClickableQLabel.hpp \
+    ClickableQLineEdit.hpp
 
 FORMS    += AssemblyCalculator.ui
+
+DISTFILES += \
+    FloatOperations.s \
+    Conversions.s

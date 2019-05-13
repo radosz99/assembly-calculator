@@ -86,7 +86,7 @@ movl %esp, %ebp
 finit
 fldl 8(%ebp)
 fldl 16(%ebp)
-fdivp
+fdivrp
 fstpl result
 movl $result, %eax
 
