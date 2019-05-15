@@ -1,2 +1,4 @@
 /build
 assembly-calculator.pro.user
+/tests/tests
+/.vscode
