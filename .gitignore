@@ -1,4 +1,5 @@
 /build
 assembly-calculator.pro.user
 /tests/tests
+/tests/catch.hpp
 /.vscode
