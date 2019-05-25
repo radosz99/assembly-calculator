@@ -16,6 +16,10 @@ AssemblyCalculator::AssemblyCalculator(QWidget *parent) :
     ui->pageProgrammer->layout()->setMargin(marginSize);
     ui->pageProgrammer->layout()->setSpacing(marginSize);
 
+    fState = new FloatingPointCalculatorState(ui);
+    pState = new ProgrammerCalculatorState(ui);
+    activeState = fState;
+
     QTextDocument exponentationButtonText;
     exponentationButtonText.setHtml("<big>x<sup>y</sup></big>");
 
@@ -33,7 +37,7 @@ AssemblyCalculator::AssemblyCalculator(QWidget *parent) :
     ui->P_buttonExp->setIconSize(exponentationButtonPixmap.rect().size());
 
     // set floating calculator as default
-    on_buttonFloating_clicked();
+    enableFloatingPointMode();
 
     for (int i = 0; i < 10; i++)
     {
@@ -70,173 +74,46 @@ AssemblyCalculator::AssemblyCalculator(QWidget *parent) :
     connect(ui->P_labelBin, SIGNAL(clicked()), this, SLOT(baseChanged()));
     connect(ui->P_labelDec, SIGNAL(clicked()), this, SLOT(baseChanged()));
     connect(ui->P_labelHex, SIGNAL(clicked()), this, SLOT(baseChanged()));
+    connect(ui->P_displayBin, SIGNAL(clicked()), this, SLOT(baseChanged()));
+    connect(ui->P_displayDec, SIGNAL(clicked()), this, SLOT(baseChanged()));
+    connect(ui->P_displayHex, SIGNAL(clicked()), this, SLOT(baseChanged()));
 
-
-    activeDisplayMain = ui->F_displayMain;
-    activeDisplayUpper = ui->F_displayUpper;
-    ui->P_labelBin->setActive(true);
-    ui->P_displayBin->setActive(true);
+    connect(ui->buttonFloating, SIGNAL(released()), this, SLOT(enableFloatingPointMode()));
+    connect(ui->buttonProgrammer, SIGNAL(released()), this, SLOT(enableProgrammerMode()));
 }
 
 AssemblyCalculator::~AssemblyCalculator()
 {
+    delete fState;
     delete ui;
 }
 
 void AssemblyCalculator::baseChanged()
 {
-    QObject * selectedBaseButton = sender();
-    QString selectedBase = selectedBaseButton->objectName().toLower();
-    const char * number = ui->P_displayMain->text().toStdString().c_str();
-
-    if (selectedBase.contains("bin"))
-    {
-        ui->P_labelBin->setActive(true);
-        ui->P_labelDec->setActive(false);
-        ui->P_labelHex->setActive(false);
-        ui->P_displayBin->setActive(true);
-        ui->P_displayDec->setActive(false);
-        ui->P_displayHex->setActive(false);
-        setDecButtonsActive(false);
-        setHexButtonsActive(false);
-
-        ui->P_displayMain->setText(convertNumber(base, number, 'b'));
-
-        base = 'b';
-    }
-    else if (selectedBase.contains("dec"))
-    {
-        ui->P_labelBin->setActive(false);
-        ui->P_labelDec->setActive(true);
-        ui->P_labelHex->setActive(false);
-        ui->P_displayBin->setActive(false);
-        ui->P_displayDec->setActive(true);
-        ui->P_displayHex->setActive(false);
-        setDecButtonsActive(true);
-        setHexButtonsActive(false);
-
-        ui->P_displayMain->setText(convertNumber(base, number, 'd'));
-
-        base = 'd';
-    }
-    else if (selectedBase.contains("hex"))
-    {
-        ui->P_labelBin->setActive(false);
-        ui->P_labelDec->setActive(false);
-        ui->P_labelHex->setActive(true);
-        ui->P_displayBin->setActive(false);
-        ui->P_displayDec->setActive(false);
-        ui->P_displayHex->setActive(true);
-        setDecButtonsActive(true);
-        setHexButtonsActive(true);
-
-        QString hexNumber(convertNumber(base, number, 'x'));
-        ui->P_displayMain->setText(hexNumber.toUpper());
-
-        base = 'x';
-    }
-}
-
-void AssemblyCalculator::setDecButtonsActive(bool active)
-{
-    ui->P_button2->setEnabled(active);
-    ui->P_button3->setEnabled(active);
-    ui->P_button4->setEnabled(active);
-    ui->P_button5->setEnabled(active);
-    ui->P_button6->setEnabled(active);
-    ui->P_button7->setEnabled(active);
-    ui->P_button8->setEnabled(active);
-    ui->P_button9->setEnabled(active);
-}
-
-void AssemblyCalculator::setHexButtonsActive(bool active)
-{
-    ui->P_buttonA->setEnabled(active);
-    ui->P_buttonB->setEnabled(active);
-    ui->P_buttonC->setEnabled(active);
-    ui->P_buttonD->setEnabled(active);
-    ui->P_buttonE->setEnabled(active);
-    ui->P_buttonF->setEnabled(active);
-}
-
-void AssemblyCalculator::on_buttonFloating_clicked()
-{
-    ui->stackedWidget->setCurrentWidget(ui->pageFloating);
-    ui->buttonFloating->setStyleSheet(activeButtonStylesheet);
-    ui->buttonProgrammer->setStyleSheet(inactiveButtonStylesheet);
-    calculatorMode = CalculatorMode::FLOATING;
-}
-
-void AssemblyCalculator::on_buttonProgrammer_clicked()
-{
-    ui->stackedWidget->setCurrentWidget(ui->pageProgrammer);
-    ui->buttonProgrammer->setStyleSheet(activeButtonStylesheet);
-    ui->buttonFloating->setStyleSheet(inactiveButtonStylesheet);
-    calculatorMode = CalculatorMode::PROGRAMMER;
+    pState->baseChanged((QObject *) sender());
 }
 
 void AssemblyCalculator::valueEntered()
 {
-    QPushButton * buttonPressed = (QPushButton *) sender();
-    QString valuePressed = buttonPressed->text();
-
-    if (calculatorMode == CalculatorMode::FLOATING)
-        floatingValueEntered(valuePressed);
-    else if (calculatorMode == CalculatorMode::PROGRAMMER)
-        programmerValueEntered(valuePressed);
+    activeState->valueEntered((QPushButton *) sender());
 }
 
-void AssemblyCalculator::floatingValueEntered(QString valuePressed)
+void AssemblyCalculator::enableFloatingPointMode()
 {
-    if (F_resultDisplayed)
-    {
-        F_firstOperand = 0.0;
-        ui->F_displayMain->setText("");
-        ui->F_displayUpper->setText("");
-        F_resultDisplayed = false;
-    }
-
-
-    QString displayedNumber = ui->F_displayMain->text();
-
-    if (valuePressed == ".")
-    {
-        // already one point in value
-        if (displayedNumber.contains("."))
-            return;
-
-        // point pressed first
-        if (displayedNumber.length() == 0)
-            displayedNumber = "0";
-    }
-
-    QString updatedText = displayedNumber + valuePressed;
-    ui->F_displayMain->setText(updatedText);
+    ui->stackedWidget->setCurrentWidget(ui->pageFloating);
+    ui->buttonFloating->setStyleSheet(activeButtonStylesheet);
+    ui->buttonProgrammer->setStyleSheet(inactiveButtonStylesheet);
+    activeState = fState;
+    activeState->resetState();
 }
 
-void AssemblyCalculator::programmerValueEntered(QString valuePressed)
+void AssemblyCalculator::enableProgrammerMode()
 {
-    if (P_resultDisplayed)
-    {
-        P_firstOperand = "";
-        ui->P_displayMain->setText("");
-        ui->P_displayUpper->setText("");
-        P_resultDisplayed = false;
-    }
-
-    QString displayedNumber = ui->P_displayMain->text();
-
-    QString updatedText = displayedNumber + valuePressed;
-    ui->P_displayMain->setText(updatedText);
-
-    const char * number = updatedText.toStdString().c_str();
-
-    QString binNumber(convertNumber(base, number, 'b'));
-    ui->P_displayBin->setText(binNumber);
-    QString decNumber(convertNumber(base, number, 'd'));
-    ui->P_displayDec->setText(decNumber);
-    QString hexNumber(convertNumber(base, number, 'x'));
-    ui->P_displayHex->setText(hexNumber.toUpper());
+    ui->stackedWidget->setCurrentWidget(ui->pageProgrammer);
+    ui->buttonProgrammer->setStyleSheet(activeButtonStylesheet);
+    ui->buttonFloating->setStyleSheet(inactiveButtonStylesheet);
+    activeState = pState;
+    activeState->resetState();
 }
 
 void AssemblyCalculator::operationEntered()
@@ -343,23 +220,7 @@ void AssemblyCalculator::equalsPressed()
 
 void AssemblyCalculator::clearPressed()
 {
-    if (calculatorMode == CalculatorMode::FLOATING)
-    {
-        F_firstOperand = 0.0;
-        selectedOperation = Operation::NONE;
-        ui->F_displayMain->setText("");
-        ui->F_displayUpper->setText("");
-        ui->F_buttonExp->setEnabled(true);
-    }
-    else if (calculatorMode == CalculatorMode::PROGRAMMER)
-    {
-        P_firstOperand = "";
-        ui->P_displayBin->setText("");
-        ui->P_displayDec->setText("");
-        ui->P_displayHex->setText("");
-        ui->P_displayUpper->setText("");
-        ui->P_displayMain->setText("");
-    }
+    activeState->resetState();
 }
 
 void AssemblyCalculator::negatePressed()

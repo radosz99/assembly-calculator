@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>272</width>
-    <height>337</height>
+    <height>372</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -775,6 +775,51 @@
       </widget>
       <widget class="QWidget" name="pageProgrammer">
        <layout class="QGridLayout" name="gridLayout_3">
+        <item row="4" column="0">
+         <widget class="ClickableQLabel" name="P_labelHex">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLineEdit, QLabel {
+	color: black;
+	text-decoration: none;
+	margin-left: 5px;
+}</string>
+          </property>
+          <property name="text">
+           <string>HEX</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="ClickableQLabel" name="P_labelBin">
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLineEdit, QLabel {
+	color: black;
+	text-decoration: none;
+	margin-left: 5px;
+}</string>
+          </property>
+          <property name="text">
+           <string>BIN</string>
+          </property>
+         </widget>
+        </item>
         <item row="6" column="3">
          <widget class="QPushButton" name="P_buttonA">
           <property name="enabled">
@@ -1516,32 +1561,6 @@ QPushButton:!enabled {
           </property>
          </widget>
         </item>
-        <item row="4" column="1" colspan="5">
-         <widget class="ClickableQLineEdit" name="P_displayHex">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="font">
-           <font>
-            <family>Open Sans</family>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QLineEdit {
-	color: #989898;
-}</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="frame">
-           <bool>false</bool>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
         <item row="3" column="1" colspan="5">
          <widget class="ClickableQLineEdit" name="P_displayDec">
           <property name="enabled">
@@ -1615,56 +1634,10 @@ QPushButton:!enabled {
 	color: black;
 	text-decoration: none;
 	margin-left: 5px;
-}
-</string>
-          </property>
-          <property name="text">
-           <string>DEC</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1" colspan="5">
-         <widget class="ClickableQLineEdit" name="P_displayBin">
-          <property name="font">
-           <font>
-            <family>Open Sans</family>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QLineEdit {
-	color: #989898;
 }</string>
           </property>
           <property name="text">
-           <string/>
-          </property>
-          <property name="frame">
-           <bool>false</bool>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="ClickableQLabel" name="P_labelBin">
-          <property name="font">
-           <font>
-            <family>Open Sans</family>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QLineEdit, QLabel {
-	color: black;
-	text-decoration: none;
-	margin-left: 5px;
-}
-</string>
-          </property>
-          <property name="text">
-           <string>BIN</string>
+           <string>DEC</string>
           </property>
          </widget>
         </item>
@@ -1858,28 +1831,52 @@ QPushButton:!enabled {
           </property>
          </widget>
         </item>
-        <item row="4" column="0">
-         <widget class="ClickableQLabel" name="P_labelHex">
+        <item row="4" column="1" colspan="5">
+         <widget class="ClickableQLineEdit" name="P_displayHex">
           <property name="enabled">
            <bool>true</bool>
           </property>
           <property name="font">
            <font>
             <family>Open Sans</family>
-            <weight>75</weight>
-            <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">QLineEdit, QLabel {
-	color: black;
-	text-decoration: none;
-	margin-left: 5px;
-}
-</string>
+           <string notr="true">QLineEdit {
+	color: #989898;
+}</string>
           </property>
           <property name="text">
-           <string>HEX</string>
+           <string/>
+          </property>
+          <property name="frame">
+           <bool>false</bool>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1" colspan="5">
+         <widget class="ClickableQLineEdit" name="P_displayBin">
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
+	color: #989898;
+}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="frame">
+           <bool>false</bool>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
           </property>
          </widget>
         </item>

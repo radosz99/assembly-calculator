@@ -1,4 +1,4 @@
-.bss
+.section .bss
 .equ BYTES, 1024
 .equ BYTES_2, 2048
 .equ LENGTH, 4
@@ -19,9 +19,9 @@
     sizeCounter: .long 0
 
 .text
-.globl addition
-.type addition, @function
-addition:
+.globl P_addition
+.type P_addition, @function
+P_addition:
     pushl %ebp
     movl %esp, %ebp
     pushl %ebx
@@ -93,23 +93,8 @@ designateLoopLenght:
     movl %edi, size
 	incl %edi	# jesli dodawanie to nalezy powiekszyc o 1, gdyz z n+x (gdzie x<n) moze powstac n+1
 
-#prepareResult2:
-#	incl %edi
-#	movb $0xA, result(,%edi,1) # lf
-#	incl %edi
-#	movb $0xD, result(,%edi,1) # cr
-#	decl %edi	
-#	decl %edi # wpisywanie bedziemy zaczynac od 3 pozycji od konca
-
-#resetResult:
-#   movb $0, result (,%edi,1)
-#    decl %edi
-#   cmpl $0, %edi
-#    jge resetResult
-#    movl lengthNumber, %edi
-# niby spoko ale cos jest nie tak, jak sie pojawi za duzo zer w result
-
 calculatorBegin:
+	xorl %edx, %edx
 	movl lengthNumber_1, %edx	# pobierz dlugosc pierwszej liczby do rejestru
 	cmpl $0, %edx
 	jl firstNumberEnd
@@ -184,6 +169,8 @@ savingResult:
 	jmp calculatorBegin
 
 calculatorEnd:
+	xorl %edi, %edi
+	movb $'0', result(,%edi,1)
 
     call findInitialZeros
 
