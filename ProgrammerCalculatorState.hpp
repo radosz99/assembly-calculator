@@ -12,6 +12,8 @@ public:
 
     virtual void clearDisplays() override;
     virtual void valueEntered(QPushButton * sender) override;
+    virtual void operationEntered(QPushButton * sender) override;
+    virtual void equalsPressed() override;
     virtual void resetState() override;
 
 private:

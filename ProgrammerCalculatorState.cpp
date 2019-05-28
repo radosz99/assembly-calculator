@@ -42,6 +42,16 @@ void ProgrammerCalculatorState::valueEntered(QPushButton * sender)
     ui->P_displayHex->setText(hexNumber.toUpper());
 }
 
+void ProgrammerCalculatorState::operationEntered(QPushButton * sender)
+{
+
+}
+
+void ProgrammerCalculatorState::equalsPressed()
+{
+
+}
+
 void ProgrammerCalculatorState::resetState()
 {
     CalculatorState::resetState();

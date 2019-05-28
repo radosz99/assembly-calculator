@@ -8,15 +8,6 @@
 #include <QMainWindow>
 #include <QLineEdit>
 
-extern "C" double * addition(double, double);
-extern "C" double * subtraction(double, double);
-extern "C" double * multiplication(double, double);
-extern "C" double * division(double, double);
-extern "C" double * exponentation(double, int);
-extern "C" double * squareRoot(double);
-
-extern "C" char * convertNumber(char from, const char * number, char to);
-
 namespace Ui {
 class AssemblyCalculator;
 }

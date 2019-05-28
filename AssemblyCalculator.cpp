@@ -85,6 +85,7 @@ AssemblyCalculator::AssemblyCalculator(QWidget *parent) :
 AssemblyCalculator::~AssemblyCalculator()
 {
     delete fState;
+    delete pState;
     delete ui;
 }
 
@@ -119,103 +120,12 @@ void AssemblyCalculator::enableProgrammerMode()
 void AssemblyCalculator::operationEntered()
 {
     QPushButton * buttonPressed = (QPushButton *) sender();
-    QString operationPressed = buttonPressed->text();
-
-    if (calculatorMode == CalculatorMode::FLOATING)
-        F_resultDisplayed = false;
-    else if (calculatorMode == CalculatorMode::PROGRAMMER)
-        P_resultDisplayed = false;
-
-    if (selectedOperation == Operation::NONE)
-    {
-        if (calculatorMode == CalculatorMode::FLOATING)
-            F_firstOperand = ui->F_displayMain->text().toDouble();
-        else if (calculatorMode == CalculatorMode::PROGRAMMER)
-            P_firstOperand = ui->P_displayMain->text();
-
-        if (operationPressed == "+")
-            selectedOperation = Operation::ADD;
-        else if (operationPressed == "-")
-            selectedOperation = Operation::SUB;
-        else if (operationPressed == "×")
-            selectedOperation = Operation::MUL;
-        else if (operationPressed == "÷")
-            selectedOperation = Operation::DIV;
-        else if (operationPressed == "√")
-        {
-            selectedOperation = Operation::SQRT;
-
-            if (calculatorMode == CalculatorMode::FLOATING)
-            {
-                ui->F_displayUpper->setText(operationPressed + QString::number(F_firstOperand));
-                ui->F_displayMain->setText("");
-            }
-            equalsPressed();
-            return;
-        }
-        else if (buttonPressed == ui->F_buttonExp)
-        {
-            selectedOperation = Operation::EXP;
-
-            if (calculatorMode == CalculatorMode::FLOATING)
-            {
-                ui->F_buttonPoint->setEnabled(false);
-                ui->F_displayUpper->setText(QString::number(F_firstOperand) + " ^");
-                ui->F_displayMain->setText("");
-            }
-            return;
-        }
-
-        if (calculatorMode == CalculatorMode::FLOATING)
-        {
-            ui->F_displayUpper->setText(QString::number(F_firstOperand) + " " + operationPressed);
-            ui->F_displayMain->setText("");
-        }
-        else if (calculatorMode == CalculatorMode::PROGRAMMER)
-        {
-            ui->P_displayUpper->setText(P_firstOperand + " " + operationPressed);
-            ui->P_displayMain->setText("");
-        }
-    }
-    else
-    {
-        if (operationPressed == "-")
-            negatePressed();
-    }
+    activeState->operationEntered(buttonPressed);
 }
 
 void AssemblyCalculator::equalsPressed()
 {
-    if (selectedOperation != Operation::NONE)
-    {
-        double * result;
-        double F_secondOperand = ui->F_displayMain->text().toDouble();
-        QString operationString = ui->F_displayUpper->text();
-        operationString += " " + ui->F_displayMain->text();
-
-        ui->F_displayUpper->setText(operationString);
-
-        if (selectedOperation == Operation::ADD)
-            result = addition(F_firstOperand, F_secondOperand);
-        else if (selectedOperation == Operation::SUB)
-            result = subtraction(F_firstOperand, F_secondOperand);
-        else if (selectedOperation == Operation::MUL)
-            result = multiplication(F_firstOperand, F_secondOperand);
-        else if (selectedOperation == Operation::DIV)
-            result = division(F_firstOperand, F_secondOperand);
-        else if (selectedOperation == Operation::SQRT)
-            result = squareRoot(F_firstOperand);
-        else if (selectedOperation == Operation::EXP)
-        {
-            result = exponentation(F_firstOperand, (int) F_secondOperand);
-            ui->F_buttonPoint->setEnabled(true);
-        }
-
-        ui->F_displayMain->setText(QString::number(*result));
-        selectedOperation = Operation::NONE;
-        F_firstOperand = *result;
-        F_resultDisplayed = true;
-    }
+    activeState->equalsPressed();
 }
 
 void AssemblyCalculator::clearPressed()
@@ -225,10 +135,5 @@ void AssemblyCalculator::clearPressed()
 
 void AssemblyCalculator::negatePressed()
 {
-    QString displayedNumber = ui->F_displayMain->text();
-
-    if (displayedNumber.contains("-"))
-        ui->F_displayMain->setText(displayedNumber.mid(1, displayedNumber.length() - 1));
-    else
-        ui->F_displayMain->setText("-" + displayedNumber);
+    activeState->negatePressed();
 }
