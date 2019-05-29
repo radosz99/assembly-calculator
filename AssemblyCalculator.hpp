@@ -2,11 +2,9 @@
 #define ASSEMBLYCALCULATOR_HPP
 
 #include "Operation.hpp"
-#include "CalculatorMode.hpp"
 #include "FloatingPointCalculatorState.hpp"
 #include "ProgrammerCalculatorState.hpp"
 #include <QMainWindow>
-#include <QLineEdit>
 
 namespace Ui {
 class AssemblyCalculator;
@@ -21,8 +19,6 @@ public:
     ~AssemblyCalculator();
 
 private slots:
-//    void on_buttonFloating_clicked();
-//    void on_buttonProgrammer_clicked();
     void valueEntered();
     void operationEntered();
     void equalsPressed();
@@ -38,14 +34,6 @@ private:
     CalculatorState * activeState;
     FloatingPointCalculatorState * fState;
     ProgrammerCalculatorState * pState;
-
-    bool F_resultDisplayed = false;
-    bool P_resultDisplayed = false;
-    double F_firstOperand;
-    QString P_firstOperand = "";
-    Operation selectedOperation = Operation::NONE;
-    CalculatorMode calculatorMode = CalculatorMode::FLOATING;
-    char base = 'b';
 
     const int marginSize = 3;
     const QString inactiveButtonStylesheet = "QPushButton { color: #cdcdcd; border: 0; background: none; }";

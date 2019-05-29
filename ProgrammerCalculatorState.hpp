@@ -3,6 +3,8 @@
 #include "CalculatorState.hpp"
 
 extern "C" char * convertNumber(char from, const char * number, char to);
+extern "C" char * P_addition(char base, const char * number1, const char * number2);
+extern "C" char * P_subtraction(char base, const char * number1, const char * number2);
 
 class ProgrammerCalculatorState : public CalculatorState
 {
@@ -18,8 +20,10 @@ public:
 
 private:
     QString firstOperand = "";
+    QString operationString = "";
     char base = 'b';
 
+    void updateDisplays();
     void enableBinMode();
     void enableDecMode();
     void enableHexMode();

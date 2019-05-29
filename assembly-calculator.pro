@@ -17,15 +17,15 @@ SOURCES += main.cpp\
         FloatOperations.s \
         Conversions.s \
         P_addition.s \
+        P_subtraction.s \
         ClickableQLabel.cpp \
         ClickableQLineEdit.cpp \
-    CalculatorState.cpp \
-    FloatingPointCalculatorState.cpp \
-    ProgrammerCalculatorState.cpp
+        CalculatorState.cpp \
+        FloatingPointCalculatorState.cpp \
+        ProgrammerCalculatorState.cpp
 
 HEADERS  += AssemblyCalculator.hpp \
     Operation.hpp \
-    CalculatorMode.hpp \
     ClickableQLabel.hpp \
     ClickableQLineEdit.hpp \
     CalculatorState.hpp \
@@ -37,4 +37,5 @@ FORMS    += AssemblyCalculator.ui
 DISTFILES += \
     FloatOperations.s \
     Conversions.s \
-    P_addition.s
+    P_addition.s \
+    P_subtraction.s

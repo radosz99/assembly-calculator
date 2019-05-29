@@ -30,27 +30,27 @@ P_addition:
     movl %ecx, base
 
     xorl %ebx, %ebx		# zerowanie %ecx
-	movb base, %bl
-	cmpb $0x62, %bl
-	je binary
-	cmpb $0x64, %bl		
-	je decimal
-	cmpb $0x68, %bl		
-	je hexadecimal
+        movb base, %bl
+        cmpb $0x62, %bl
+        je binary
+        cmpb $0x64, %bl
+        je decimal
+        cmpb $'x', %bl
+        je hexadecimal
 
 binary:
-	movl $2, %eax
-	movl %eax, base
-	jmp askFirstNumber
+        movl $2, %eax
+        movl %eax, base
+        jmp askFirstNumber
 
 decimal:
     movl $10, %eax
-	movl %eax, base
-	jmp askFirstNumber
+        movl %eax, base
+        jmp askFirstNumber
 
 hexadecimal:
-	movl $0x10, %eax
-	movl %eax, base
+        movl $0x10, %eax
+        movl %eax, base
 
 askFirstNumber:
     movl 12(%ebp), %ecx
@@ -84,96 +84,101 @@ mov2End:
     movl lengthNumber_2, %eax
 
 designateLoopLenght:
-	movb $0, carry	# zerujemy ewentualne przeniesienie
-	movl lengthNumber_1, %edi	
-	cmpl lengthNumber_2, %edi
-	jg calculatorBegin
-	movl lengthNumber_2, %edi # wyznaczona ilosc petli 
-	movl %edi, lengthNumber # dlugosc wyniku
+        movb $0, carry	# zerujemy ewentualne przeniesienie
+        movl lengthNumber_1, %edi
+        cmpl lengthNumber_2, %edi
+        jg calculatorBegin
+        movl lengthNumber_2, %edi # wyznaczona ilosc petli
+        movl %edi, lengthNumber # dlugosc wyniku
     movl %edi, size
-	incl %edi	# jesli dodawanie to nalezy powiekszyc o 1, gdyz z n+x (gdzie x<n) moze powstac n+1
+        incl %edi	# jesli dodawanie to nalezy powiekszyc o 1, gdyz z n+x (gdzie x<n) moze powstac n+1
 
 calculatorBegin:
-	xorl %edx, %edx
-	movl lengthNumber_1, %edx	# pobierz dlugosc pierwszej liczby do rejestru
-	cmpl $0, %edx
-	jl firstNumberEnd
-	xorl %ebx, %ebx	# wyzeruj ebx
-	decl lengthNumber_1		# dekrementacja dlugosci liczby by wczytac kolejna cyfre w nowej petli
-	movb number_1(,%edx,1), %bl # pobieranie znaku do ebx
+        xorl %edx, %edx
+        movl lengthNumber_1, %edx	# pobierz dlugosc pierwszej liczby do rejestru
+        cmpl $0, %edx
+        jl firstNumberEnd
+        xorl %ebx, %ebx	# wyzeruj ebx
+        decl lengthNumber_1		# dekrementacja dlugosci liczby by wczytac kolejna cyfre w nowej petli
+        movb number_1(,%edx,1), %bl # pobieranie znaku do ebx
 
-	pushl $base
-	pushl %ebx
-	call charToInt
-	addl $8, %esp
-	cmpb base, %al # niepoprawne wartosci
-	jge askFirstNumber # powrot do pytan o liczby
+        pushl $base
+        pushl %ebx
+        call charToInt
+        addl $8, %esp
+        cmpb base, %al # niepoprawne wartosci
+        jge askFirstNumber # powrot do pytan o liczby
 
-	jmp calculatorContinue
+        jmp calculatorContinue
 
 firstNumberEnd:
-	xorl %eax, %eax	# przejscie po calej pierwszej liczbie
+        xorl %eax, %eax	# przejscie po calej pierwszej liczbie
 
 calculatorContinue:
-	xorl %ebx, %ebx	
-	movl lengthNumber_2, %edx	# pobierz dlugosc drugiej liczby do rejestru
-	cmpl $0, %edx	
-	jl secondNumberEnd	
-	decl lengthNumber_2		
-	movb number_2(,%edx,1), %bl # pobieranie znaku do ebx
+        xorl %ebx, %ebx
+        movl lengthNumber_2, %edx	# pobierz dlugosc drugiej liczby do rejestru
+        cmpl $0, %edx
+        jl secondNumberEnd
+        decl lengthNumber_2
+        movb number_2(,%edx,1), %bl # pobieranie znaku do ebx
 
-	pushl %eax		# cyfre z pierwszej liczby wrzucamy na stos
+        pushl %eax		# cyfre z pierwszej liczby wrzucamy na stos
 
-	pushl $base
-	pushl %ebx
-	call charToInt
-	addl $8, %esp
-	cmpb base, %al
-	jge askFirstNumber
-	
-	movl %eax, %ebx	# w ebx mamy teraz cyfre z drugiej liczby
-	popl %eax		# przywracamy cyfre z pierwszej liczby
+        pushl $base
+        pushl %ebx
+        call charToInt
+        addl $8, %esp
+        cmpb base, %al
+        jge askFirstNumber
+
+        movl %eax, %ebx	# w ebx mamy teraz cyfre z drugiej liczby
+        popl %eax		# przywracamy cyfre z pierwszej liczby
 
 secondNumberEnd:
-	cmpl $0, lengthNumber_1
-	jge adderBegin
-	cmpl $0, lengthNumber_2
-	jge adderBegin
-	cmpl $0, %eax   # dlugosc zostanie najpierw wyzerowana ale wartosci jeszcze beda
-	jne adderBegin
-	cmpl $0, %ebx
-	jne adderBegin
-	cmpl $1, carry
-	je adderBegin
-	jmp calculatorEnd
+        cmpl $0, lengthNumber_1
+        jge adderBegin
+        cmpl $0, lengthNumber_2
+        jge adderBegin
+        cmpl $0, %eax   # dlugosc zostanie najpierw wyzerowana ale wartosci jeszcze beda
+        jne adderBegin
+        cmpl $0, %ebx
+        jne adderBegin
+        cmpl $1, carry
+        je adderBegin
+        jmp calculatorEnd
 
 adderBegin:
-	addl %ebx, %eax	# dodajemy wartosci rejestrow
-	addl carry, %eax # dodajemy ewentualne przeniesienie
-	movb $0, carry # zerujemy przeniesienie
-	cmpl base, %eax	# 
-	jb savingResult
+        addl %ebx, %eax	# dodajemy wartosci rejestrow
+        addl carry, %eax # dodajemy ewentualne przeniesienie
+        movb $0, carry # zerujemy przeniesienie
+        cmpl base, %eax	#
+        jb savingResult
 
-	subl base, %eax #jezeli wynik jest wiekszy od podstawy to odejmujemy podstawe...
-	movb $1, carry # ... i aktywujemy przeniesienie
-	jmp savingResult
+        subl base, %eax #jezeli wynik jest wiekszy od podstawy to odejmujemy podstawe...
+        movb $1, carry # ... i aktywujemy przeniesienie
+        jmp savingResult
 
 savingResult:
-	pushl %eax
-	call intToChar
-	addl $4, %esp
+        pushl %eax
+        call intToChar
+        addl $4, %esp
 
-	movb %al, result(,%edi,1) #zapisujemy wynik do result
-	decl %edi # i dekrementujemy nasz rejestr przechodzacy po result
+        movb %al, result(,%edi,1) #zapisujemy wynik do result
+        decl %edi # i dekrementujemy nasz rejestr przechodzacy po result
 
-	jmp calculatorBegin
+        jmp calculatorBegin
 
 calculatorEnd:
-	xorl %edi, %edi
-	movb $'0', result(,%edi,1)
+        xorl %edi, %edi
+        xorl %eax, %eax
+        movb result(,%edi,1), %al
+        cmpl $'1', %eax
+        je calculatorEnd1
+        movb $'0', result(,%edi,1)
 
     call findInitialZeros
 
+calculatorEnd1:
     movl $result, %eax
     popl %ebx
     movl %ebp, %esp
@@ -182,43 +187,43 @@ calculatorEnd:
 
 .type charToInt,@function
 charToInt:
-	pushl %ebp
-	movl %esp, %ebp
+        pushl %ebp
+        movl %esp, %ebp
 
-	xorl %ebx, %ebx		# zeruj ebx
-	movl 8(%ebp), %ebx  # wrzucamy znak do ebx
-	subb $0x30, %bl		# odejmij wartosc znaku '0' od znaku, zostaje cyfra
-	cmpb $10, %bl		# jezeli cyfra mniejsza od 10, przejdz na koniec
-	jb charToIntEnd
+        xorl %ebx, %ebx		# zeruj ebx
+        movl 8(%ebp), %ebx  # wrzucamy znak do ebx
+        subb $0x30, %bl		# odejmij wartosc znaku '0' od znaku, zostaje cyfra
+        cmpb $10, %bl		# jezeli cyfra mniejsza od 10, przejdz na koniec
+        jb charToIntEnd
 
-	subb $0x7, %bl      # mogla zostac podana duza litera, np A
-	cmpb $0x10, %bl	    # jesli mniejsza to przeskakujemy dalej
-	jb charToIntEnd
+        subb $0x7, %bl      # mogla zostac podana duza litera, np A
+        cmpb $0x10, %bl	    # jesli mniejsza to przeskakujemy dalej
+        jb charToIntEnd
 
-	subb $0x20, %bl     # podana zostala mala litera, np a
+        subb $0x20, %bl     # podana zostala mala litera, np a
 
 charToIntEnd:
-	movl %ebx, %eax		# powiodla sie konwersja, przepisz ebx do eax
-	movl %ebp, %esp
-	popl %ebp
-	ret
+        movl %ebx, %eax		# powiodla sie konwersja, przepisz ebx do eax
+        movl %ebp, %esp
+        popl %ebp
+        ret
 
 .type intToChar,@function
 intToChar:
-	pushl %ebp
-	movl %esp, %ebp
+        pushl %ebp
+        movl %esp, %ebp
 
-	movl 8(%ebp), %eax
-	addb $0x30, %al
-	cmpb $0x39, %al	# wartosc mniejsza lub rowna '9'
-	jbe intToCharEnd
+        movl 8(%ebp), %eax
+        addb $0x30, %al
+        cmpb $0x39, %al	# wartosc mniejsza lub rowna '9'
+        jbe intToCharEnd
 
-	addb $7, %al # dla heksadecymalnego
+        addb $7, %al # dla heksadecymalnego
 
 intToCharEnd:
-	movl %ebp, %esp
-	popl %ebp
-	ret
+        movl %ebp, %esp
+        popl %ebp
+        ret
 
 .type findInitialZeros,@function
 findInitialZeros:
@@ -238,7 +243,7 @@ findInitialZerosBegin:
     cmpl $'0', %eax
     je deleteInitialZeros
     jmp findInitialZerosEnd
-    
+
 deleteInitialZeros:
     xorl %eax, %eax
     movb result(,%edx,1), %al
@@ -255,5 +260,5 @@ deleteRedundand:
 
 findInitialZerosEnd:
     #movl %ebp, %esp
-	#popl %ebp
-	ret
+        #popl %ebp
+        ret

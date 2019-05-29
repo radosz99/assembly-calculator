@@ -32,24 +32,89 @@ void ProgrammerCalculatorState::valueEntered(QPushButton * sender)
     QString updatedText = displayedNumber + valuePressed;
     ui->P_displayMain->setText(updatedText);
 
-    const char * number = updatedText.toStdString().c_str();
-
-    QString binNumber(convertNumber(base, number, 'b'));
-    ui->P_displayBin->setText(binNumber);
-    QString decNumber(convertNumber(base, number, 'd'));
-    ui->P_displayDec->setText(decNumber);
-    QString hexNumber(convertNumber(base, number, 'x'));
-    ui->P_displayHex->setText(hexNumber.toUpper());
+    updateDisplays();
 }
 
 void ProgrammerCalculatorState::operationEntered(QPushButton * sender)
 {
+    QString operationPressed = sender->text();
+    resultDisplayed = false;
 
+    if (selectedOperation == Operation::NONE)
+    {
+        firstOperand = ui->P_displayMain->text();
+        if (firstOperand.length() == 0)
+            firstOperand = "0";
+
+        if (operationPressed == "+")
+        {
+            selectedOperation = Operation::ADD;
+            operationString = "+";
+        }
+        else if (operationPressed == "-")
+        {
+            selectedOperation = Operation::SUB;
+            operationString = "-";
+        }
+        else if (operationPressed == "×")
+        {
+            selectedOperation = Operation::MUL;
+            operationString = "×";
+        }
+        else if (operationPressed == "÷")
+        {
+            selectedOperation = Operation::DIV;
+            operationString = "÷";
+        }
+        else if (operationPressed == "√")
+        {
+            selectedOperation = Operation::SQRT;
+            operationString = "√";
+            ui->P_displayUpper->setText(operationPressed + firstOperand);
+            ui->P_displayMain->setText("");
+            equalsPressed();
+            return;
+        }
+        else if (sender == ui->P_buttonExp)
+        {
+            selectedOperation = Operation::EXP;
+            operationString = "^";
+            ui->P_buttonPoint->setEnabled(false);
+            ui->P_displayUpper->setText(firstOperand + " ^");
+            ui->P_displayMain->setText("");
+            return;
+        }
+
+        ui->P_displayUpper->setText(firstOperand + " " + operationPressed);
+        ui->P_displayMain->setText("");
+    }
 }
 
 void ProgrammerCalculatorState::equalsPressed()
 {
+    if (selectedOperation != Operation::NONE)
+    {
+        char * result;
+        QString secondOperand = ui->P_displayMain->text();
+        QString operationString = ui->P_displayUpper->text();
+        operationString += " " + ui->P_displayMain->text();
 
+        firstOperand += "\n";
+        secondOperand += "\n";
+
+        ui->P_displayUpper->setText(operationString);
+
+        if (selectedOperation == Operation::ADD)
+            result = P_addition(base, firstOperand.toStdString().c_str(), secondOperand.toStdString().c_str());
+        else if (selectedOperation == Operation::SUB)
+            result = P_subtraction(base, firstOperand.toStdString().c_str(), secondOperand.toStdString().c_str());
+
+        ui->P_displayMain->setText(result);
+        selectedOperation = Operation::NONE;
+        firstOperand = result;
+        resultDisplayed = true;
+        updateDisplays();
+    }
 }
 
 void ProgrammerCalculatorState::resetState()
@@ -59,30 +124,51 @@ void ProgrammerCalculatorState::resetState()
     ui->P_buttonExp->setEnabled(true);
 }
 
+void ProgrammerCalculatorState::updateDisplays()
+{
+    const char * number = ui->P_displayMain->text().toStdString().c_str();
+
+    QString binNumber(convertNumber(base, number, 'b'));
+    ui->P_displayBin->setText(binNumber);
+    QString decNumber(convertNumber(base, number, 'd'));
+    ui->P_displayDec->setText(decNumber);
+    QString hexNumber(convertNumber(base, number, 'x'));
+    ui->P_displayHex->setText(hexNumber.toUpper());
+}
+
 void ProgrammerCalculatorState::baseChanged(QObject * sender)
 {
     QString selectedBase = sender->objectName().toLower();
+    char newBase;
     const char * number = ui->P_displayMain->text().toStdString().c_str();
 
     if (selectedBase.contains("bin"))
     {
         enableBinMode();
-        ui->P_displayMain->setText(convertNumber(base, number, 'b'));
-        base = 'b';
+        newBase = 'b';
     }
     else if (selectedBase.contains("dec"))
     {
         enableDecMode();
-        ui->P_displayMain->setText(convertNumber(base, number, 'd'));
-        base = 'd';
+        newBase = 'd';
     }
     else if (selectedBase.contains("hex"))
     {
         enableHexMode();
-        QString hexNumber(convertNumber(base, number, 'x'));
-        ui->P_displayMain->setText(hexNumber.toUpper());
-        base = 'x';
+        newBase = 'x';
     }
+
+    ui->P_displayMain->setText(convertNumber(base, number, newBase));
+
+    if (firstOperand.length() > 0)
+    {
+        const char * upperString = firstOperand.toStdString().c_str();
+        ui->P_displayUpper->setText(convertNumber(base, upperString, newBase));
+        firstOperand = ui->P_displayUpper->text();
+        ui->P_displayUpper->setText(ui->P_displayUpper->text().toUpper() + " " + operationString);
+    }
+
+    base = newBase;
 }
 
 void ProgrammerCalculatorState::enableBinMode()
