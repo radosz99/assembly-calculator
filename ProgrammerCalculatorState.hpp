@@ -5,6 +5,10 @@
 extern "C" char * convertNumber(char from, const char * number, char to);
 extern "C" char * P_addition(char base, const char * number1, const char * number2);
 extern "C" char * P_subtraction(char base, const char * number1, const char * number2);
+extern "C" char * P_multiplication(char base, const char * number1, const char * number2);
+extern "C" char * P_division(char base, const char * number1, const char * number2);
+extern "C" char * P_exponentation(char base, const char * number1, const char * number2);
+extern "C" char * P_squareRoot(char base, const char * number);
 
 class ProgrammerCalculatorState : public CalculatorState
 {

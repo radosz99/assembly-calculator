@@ -18,6 +18,10 @@ SOURCES += main.cpp\
         Conversions.s \
         P_addition.s \
         P_subtraction.s \
+        P_multiplication.s \
+        P_division.s \
+        P_exponentation.s \
+        P_squareRoot.s \
         ClickableQLabel.cpp \
         ClickableQLineEdit.cpp \
         CalculatorState.cpp \
@@ -38,4 +42,8 @@ DISTFILES += \
     FloatOperations.s \
     Conversions.s \
     P_addition.s \
-    P_subtraction.s
+    P_subtraction.s \
+    P_multiplication.s \
+    P_division.s \
+    P_exponentation.s \
+    P_squareRoot.s

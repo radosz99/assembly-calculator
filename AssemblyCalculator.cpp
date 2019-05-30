@@ -72,6 +72,7 @@ AssemblyCalculator::AssemblyCalculator(QWidget *parent) :
     connect(ui->P_buttonSub, SIGNAL(released()), this, SLOT(operationEntered()));
     connect(ui->P_buttonMul, SIGNAL(released()), this, SLOT(operationEntered()));
     connect(ui->P_buttonDiv, SIGNAL(released()), this, SLOT(operationEntered()));
+    connect(ui->P_buttonExp, SIGNAL(released()), this, SLOT(operationEntered()));
     connect(ui->P_buttonSqrt, SIGNAL(released()), this, SLOT(operationEntered()));
     connect(ui->P_buttonEquals, SIGNAL(released()), this, SLOT(equalsPressed()));
     connect(ui->P_buttonClear, SIGNAL(released()), this, SLOT(clearPressed()));

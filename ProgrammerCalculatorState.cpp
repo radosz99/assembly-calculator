@@ -108,10 +108,18 @@ void ProgrammerCalculatorState::equalsPressed()
             result = P_addition(base, firstOperand.toStdString().c_str(), secondOperand.toStdString().c_str());
         else if (selectedOperation == Operation::SUB)
             result = P_subtraction(base, firstOperand.toStdString().c_str(), secondOperand.toStdString().c_str());
+        else if (selectedOperation == Operation::MUL)
+            result = P_multiplication(base, firstOperand.toStdString().c_str(), secondOperand.toStdString().c_str());
+        else if (selectedOperation == Operation::DIV)
+            result = P_division(base, firstOperand.toStdString().c_str(), secondOperand.toStdString().c_str());
+        else if (selectedOperation == Operation::EXP)
+            result = P_exponentation(base, firstOperand.toStdString().c_str(), secondOperand.toStdString().c_str());
+        else if (selectedOperation == Operation::SQRT)
+            result = P_squareRoot(base, firstOperand.toStdString().c_str());
 
         ui->P_displayMain->setText(result);
-        selectedOperation = Operation::NONE;
         firstOperand = result;
+        selectedOperation = Operation::NONE;
         resultDisplayed = true;
         updateDisplays();
     }

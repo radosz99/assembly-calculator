@@ -30,32 +30,33 @@ P_addition:
     movl %ecx, base
 
     xorl %ebx, %ebx		# zerowanie %ecx
-        movb base, %bl
-        cmpb $0x62, %bl
-        je binary
-        cmpb $0x64, %bl
-        je decimal
-        cmpb $'x', %bl
-        je hexadecimal
+    movb base, %bl
+    cmpb $0x62, %bl
+    je binary
+    cmpb $0x64, %bl
+    je decimal
+    cmpb $0x68, %bl
+    je hexadecimal
 
 binary:
-        movl $2, %eax
-        movl %eax, base
-        jmp askFirstNumber
+    movl $2, %eax
+    movl %eax, base
+    jmp askFirstNumber
 
 decimal:
     movl $10, %eax
-        movl %eax, base
-        jmp askFirstNumber
+    movl %eax, base
+    jmp askFirstNumber
 
 hexadecimal:
-        movl $0x10, %eax
-        movl %eax, base
+    movl $0x10, %eax
+    movl %eax, base
 
 askFirstNumber:
     movl 12(%ebp), %ecx
     movl $0, %edi
-    movNumber1:
+
+movNumber1:
     movb (%ecx, %edi, 1), %dl
     movb %dl, number_1(,%edi,1)
     incl %edi
@@ -70,6 +71,7 @@ mov1End:
 askSecondNumber:
     movl 16(%ebp), %ecx
     movl $0, %edi
+
 movNumber2:
     movb (%ecx, %edi, 1), %dl
     movb %dl, number_2(,%edi,1)
@@ -87,11 +89,14 @@ designateLoopLenght:
         movb $0, carry	# zerujemy ewentualne przeniesienie
         movl lengthNumber_1, %edi
         cmpl lengthNumber_2, %edi
-        jg calculatorBegin
+        jg calculatorBeginStart
         movl lengthNumber_2, %edi # wyznaczona ilosc petli
         movl %edi, lengthNumber # dlugosc wyniku
-    movl %edi, size
+        movl %edi, size
         incl %edi	# jesli dodawanie to nalezy powiekszyc o 1, gdyz z n+x (gdzie x<n) moze powstac n+1
+
+calculatorBeginStart:
+        incl %edi
 
 calculatorBegin:
         xorl %edx, %edx
