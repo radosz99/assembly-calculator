@@ -23,6 +23,8 @@ public:
     virtual void backspacePressed() override;
     virtual void resetState() override;
 
+    void squarePressed();
+
 private:
     QString firstOperand = "";
     QString operationString = "";

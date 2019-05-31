@@ -23,19 +23,30 @@ AssemblyCalculator::AssemblyCalculator(QWidget *parent) :
 
     QTextDocument exponentationButtonText;
     exponentationButtonText.setHtml("<big>x<sup>y</sup></big>");
-
     QPixmap exponentationButtonPixmap(exponentationButtonText.size().width(), exponentationButtonText.size().height());
     exponentationButtonPixmap.fill(Qt::transparent);
-    QPainter painter(&exponentationButtonPixmap);
-    exponentationButtonText.drawContents(&painter, exponentationButtonPixmap.rect());
-    QIcon buttonIcon(exponentationButtonPixmap);
+    QPainter exponentationPainter(&exponentationButtonPixmap);
+    exponentationButtonText.drawContents(&exponentationPainter, exponentationButtonPixmap.rect());
+    QIcon exponentationButtonIcon(exponentationButtonPixmap);
 
     ui->F_buttonExp->setText("");
-    ui->F_buttonExp->setIcon(buttonIcon);
+    ui->F_buttonExp->setIcon(exponentationButtonIcon);
     ui->F_buttonExp->setIconSize(exponentationButtonPixmap.rect().size());
     ui->P_buttonExp->setText("");
-    ui->P_buttonExp->setIcon(buttonIcon);
+    ui->P_buttonExp->setIcon(exponentationButtonIcon);
     ui->P_buttonExp->setIconSize(exponentationButtonPixmap.rect().size());
+
+    QTextDocument squareButtonText;
+    squareButtonText.setHtml("<big>x<sup>2</sup></big>");
+    QPixmap squareButtonPixmap(squareButtonText.size().width(), squareButtonText.size().height());
+    squareButtonPixmap.fill(Qt::transparent);
+    QPainter squarePainter(&squareButtonPixmap);
+    squareButtonText.drawContents(&squarePainter, squareButtonPixmap.rect());
+    QIcon squareButtonIcon(squareButtonPixmap);
+
+    ui->P_buttonSquare->setText("");
+    ui->P_buttonSquare->setIcon(squareButtonIcon);
+    ui->P_buttonSquare->setIconSize(squareButtonPixmap.rect().size());
 
     // set floating calculator as default
     enableFloatingPointMode();
@@ -74,9 +85,11 @@ AssemblyCalculator::AssemblyCalculator(QWidget *parent) :
     connect(ui->P_buttonMul, SIGNAL(released()), this, SLOT(operationEntered()));
     connect(ui->P_buttonDiv, SIGNAL(released()), this, SLOT(operationEntered()));
     connect(ui->P_buttonExp, SIGNAL(released()), this, SLOT(operationEntered()));
+    connect(ui->P_buttonSquare, SIGNAL(released()), this, SLOT(operationEntered()));
     connect(ui->P_buttonSqrt, SIGNAL(released()), this, SLOT(operationEntered()));
     connect(ui->P_buttonEquals, SIGNAL(released()), this, SLOT(equalsPressed()));
     connect(ui->P_buttonClear, SIGNAL(released()), this, SLOT(clearPressed()));
+    connect(ui->P_buttonClearEntry, SIGNAL(released()), this, SLOT(backspacePressed()));
 
     connect(ui->P_labelBin, SIGNAL(clicked()), this, SLOT(baseChanged()));
     connect(ui->P_labelDec, SIGNAL(clicked()), this, SLOT(baseChanged()));
@@ -137,6 +150,13 @@ void AssemblyCalculator::operationEntered()
 
     if (buttonPressed == ui->F_buttonExp || buttonPressed == ui->P_buttonExp)
         buttonValue = "^";
+    else if (buttonPressed == ui->P_buttonSquare)
+    {
+        // no square operation defined in FP State
+        buttonValue = "^2";
+        pState->operationEntered(buttonValue);
+        return;
+    }
 
     activeState->operationEntered(buttonValue);
 }

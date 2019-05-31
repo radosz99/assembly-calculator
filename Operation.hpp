@@ -9,7 +9,8 @@ enum class Operation
     MUL,
     DIV,
     SQRT,
-    EXP
+    EXP,
+    SQUARE
 };
 
 #endif // OPERATION

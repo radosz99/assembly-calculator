@@ -83,9 +83,17 @@ void ProgrammerCalculatorState::operationEntered(const QString& buttonPressed)
         {
             selectedOperation = Operation::EXP;
             operationString = "^";
-            ui->P_buttonPoint->setEnabled(false);
             ui->P_displayUpper->setText(firstOperand + " ^");
             ui->P_displayMain->setText("");
+            return;
+        }
+        else if (buttonPressed == "^2")
+        {
+            selectedOperation = Operation::SQUARE;
+            operationString = " ^ 2";
+            ui->P_displayUpper->setText(firstOperand + operationString);
+            ui->P_displayMain->setText("");
+            equalsPressed();
             return;
         }
 
@@ -120,6 +128,13 @@ void ProgrammerCalculatorState::equalsPressed()
             result = P_exponentation(base, firstOperand.toStdString().c_str(), secondOperand.toStdString().c_str());
         else if (selectedOperation == Operation::SQRT)
             result = P_squareRoot(base, firstOperand.toStdString().c_str());
+        else if (selectedOperation == Operation::SQUARE)
+        {
+            if (base == 'b')
+                result = P_exponentation(base, firstOperand.toStdString().c_str(), "10\n");
+            else
+                result = P_exponentation(base, firstOperand.toStdString().c_str(), "2\n");
+        }
 
         ui->P_displayMain->setText(result);
         firstOperand = result;
