@@ -14,9 +14,10 @@ class FloatingPointCalculatorState : public CalculatorState
 public:
     FloatingPointCalculatorState(Ui::AssemblyCalculator * ui);
     virtual void clearDisplays() override;
-    virtual void valueEntered(QPushButton * sender) override;
-    virtual void operationEntered(QPushButton * sender) override;
+    virtual void valueEntered(const QString& buttonPressed) override;
+    virtual void operationEntered(const QString& buttonPressed) override;
     virtual void equalsPressed() override;
+    virtual void backspacePressed() override;
     virtual void resetState() override;
 
 private:

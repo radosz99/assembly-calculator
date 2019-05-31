@@ -15,9 +15,14 @@ void ProgrammerCalculatorState::clearDisplays()
     ui->P_displayUpper->setText("");
 }
 
-void ProgrammerCalculatorState::valueEntered(QPushButton * sender)
+void ProgrammerCalculatorState::valueEntered(const QString& buttonPressed)
 {
-    QString valuePressed = sender->text();
+    if (buttonPressed == ".")
+        return;
+    if (base == 'b' && (isDecValue(buttonPressed) || isHexValue(buttonPressed)))
+        return;
+    if (base == 'd' && (isHexValue(buttonPressed)))
+        return;
 
     if (resultDisplayed)
     {
@@ -29,15 +34,14 @@ void ProgrammerCalculatorState::valueEntered(QPushButton * sender)
 
     QString displayedNumber = ui->P_displayMain->text();
 
-    QString updatedText = displayedNumber + valuePressed;
+    QString updatedText = displayedNumber + buttonPressed;
     ui->P_displayMain->setText(updatedText);
 
     updateDisplays();
 }
 
-void ProgrammerCalculatorState::operationEntered(QPushButton * sender)
+void ProgrammerCalculatorState::operationEntered(const QString& buttonPressed)
 {
-    QString operationPressed = sender->text();
     resultDisplayed = false;
 
     if (selectedOperation == Operation::NONE)
@@ -46,36 +50,36 @@ void ProgrammerCalculatorState::operationEntered(QPushButton * sender)
         if (firstOperand.length() == 0)
             firstOperand = "0";
 
-        if (operationPressed == "+")
+        if (buttonPressed == "+")
         {
             selectedOperation = Operation::ADD;
             operationString = "+";
         }
-        else if (operationPressed == "-")
+        else if (buttonPressed == "-")
         {
             selectedOperation = Operation::SUB;
             operationString = "-";
         }
-        else if (operationPressed == "×")
+        else if (buttonPressed == "×")
         {
             selectedOperation = Operation::MUL;
             operationString = "×";
         }
-        else if (operationPressed == "÷")
+        else if (buttonPressed == "÷")
         {
             selectedOperation = Operation::DIV;
             operationString = "÷";
         }
-        else if (operationPressed == "√")
+        else if (buttonPressed == "√")
         {
             selectedOperation = Operation::SQRT;
             operationString = "√";
-            ui->P_displayUpper->setText(operationPressed + firstOperand);
+            ui->P_displayUpper->setText(buttonPressed + firstOperand);
             ui->P_displayMain->setText("");
             equalsPressed();
             return;
         }
-        else if (sender == ui->P_buttonExp)
+        else if (buttonPressed == "^")
         {
             selectedOperation = Operation::EXP;
             operationString = "^";
@@ -85,7 +89,7 @@ void ProgrammerCalculatorState::operationEntered(QPushButton * sender)
             return;
         }
 
-        ui->P_displayUpper->setText(firstOperand + " " + operationPressed);
+        ui->P_displayUpper->setText(firstOperand + " " + buttonPressed);
         ui->P_displayMain->setText("");
     }
 }
@@ -123,6 +127,15 @@ void ProgrammerCalculatorState::equalsPressed()
         resultDisplayed = true;
         updateDisplays();
     }
+}
+
+void ProgrammerCalculatorState::backspacePressed()
+{
+    QString displayedValue = ui->P_displayMain->text();
+    displayedValue.chop(1);
+    ui->P_displayMain->setText(displayedValue);
+
+    updateDisplays();
 }
 
 void ProgrammerCalculatorState::resetState()

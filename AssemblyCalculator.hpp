@@ -20,10 +20,13 @@ public:
 
 private slots:
     void valueEntered();
+    void valueEntered(const QString& value);
     void operationEntered();
+    void operationEntered(const QString& value);
     void equalsPressed();
     void clearPressed();
     void negatePressed();
+    void backspacePressed();
     void baseChanged();
     void enableFloatingPointMode();
     void enableProgrammerMode();
@@ -38,6 +41,10 @@ private:
     const int marginSize = 3;
     const QString inactiveButtonStylesheet = "QPushButton { color: #cdcdcd; border: 0; background: none; }";
     const QString activeButtonStylesheet = "QPushButton { color: #191919; border: 0; background: none; }";
+
+    void keyReleaseEvent(QKeyEvent * event);
+    bool isValueKey(Qt::Key key) const;
+    bool isOperationKey(Qt::Key key) const;
 };
 
 #endif // ASSEMBLYCALCULATOR_HPP

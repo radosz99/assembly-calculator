@@ -13,9 +13,10 @@ void FloatingPointCalculatorState::clearDisplays()
     ui->F_displayUpper->setText("");
 }
 
-void FloatingPointCalculatorState::valueEntered(QPushButton * sender)
+void FloatingPointCalculatorState::valueEntered(const QString& buttonPressed)
 {
-    QString valuePressed = sender->text();
+    if (isHexValue(buttonPressed))
+        return;
 
     if (resultDisplayed)
     {
@@ -25,7 +26,7 @@ void FloatingPointCalculatorState::valueEntered(QPushButton * sender)
 
     QString displayedNumber = ui->F_displayMain->text();
 
-    if (valuePressed == ".")
+    if (buttonPressed == ".")
     {
         // already one point in value
         if (displayedNumber.contains("."))
@@ -36,36 +37,35 @@ void FloatingPointCalculatorState::valueEntered(QPushButton * sender)
             displayedNumber = "0";
     }
 
-    QString updatedText = displayedNumber + valuePressed;
+    QString updatedText = displayedNumber + buttonPressed;
     ui->F_displayMain->setText(updatedText);
 }
 
-void FloatingPointCalculatorState::operationEntered(QPushButton * sender)
+void FloatingPointCalculatorState::operationEntered(const QString& buttonPressed)
 {
-    QString operationPressed = sender->text();
     resultDisplayed = false;
 
     if (selectedOperation == Operation::NONE)
     {
         firstOperand = ui->F_displayMain->text().toDouble();
 
-        if (operationPressed == "+")
+        if (buttonPressed == "+")
             selectedOperation = Operation::ADD;
-        else if (operationPressed == "-")
+        else if (buttonPressed == "-")
             selectedOperation = Operation::SUB;
-        else if (operationPressed == "×")
+        else if (buttonPressed == "×")
             selectedOperation = Operation::MUL;
-        else if (operationPressed == "÷")
+        else if (buttonPressed == "÷")
             selectedOperation = Operation::DIV;
-        else if (operationPressed == "√")
+        else if (buttonPressed == "√")
         {
             selectedOperation = Operation::SQRT;
-            ui->F_displayUpper->setText(operationPressed + QString::number(firstOperand));
+            ui->F_displayUpper->setText(buttonPressed + QString::number(firstOperand));
             ui->F_displayMain->setText("");
             equalsPressed();
             return;
         }
-        else if (sender == ui->F_buttonExp)
+        else if (buttonPressed == "^")
         {
             selectedOperation = Operation::EXP;
             ui->F_buttonPoint->setEnabled(false);
@@ -74,14 +74,21 @@ void FloatingPointCalculatorState::operationEntered(QPushButton * sender)
             return;
         }
 
-        ui->F_displayUpper->setText(QString::number(firstOperand) + " " + operationPressed);
+        ui->F_displayUpper->setText(QString::number(firstOperand) + " " + buttonPressed);
         ui->F_displayMain->setText("");
     }
     else
     {
-        if (operationPressed == "-")
+        if (buttonPressed == "-")
             negatePressed();
     }
+}
+
+void FloatingPointCalculatorState::backspacePressed()
+{
+    QString displayedValue = ui->F_displayMain->text();
+    displayedValue.chop(1);
+    ui->F_displayMain->setText(displayedValue);
 }
 
 void FloatingPointCalculatorState::equalsPressed()

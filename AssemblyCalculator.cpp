@@ -2,6 +2,7 @@
 #include "ui_AssemblyCalculator.h"
 #include <QTextDocument>
 #include <QPainter>
+#include <QKeyEvent>
 
 AssemblyCalculator::AssemblyCalculator(QWidget *parent) :
     QMainWindow(parent),
@@ -102,7 +103,13 @@ void AssemblyCalculator::baseChanged()
 
 void AssemblyCalculator::valueEntered()
 {
-    activeState->valueEntered((QPushButton *) sender());
+    QPushButton * buttonPressed = (QPushButton *) sender();
+    activeState->valueEntered(buttonPressed->text());
+}
+
+void AssemblyCalculator::valueEntered(const QString& value)
+{
+    activeState->valueEntered(value);
 }
 
 void AssemblyCalculator::enableFloatingPointMode()
@@ -126,7 +133,17 @@ void AssemblyCalculator::enableProgrammerMode()
 void AssemblyCalculator::operationEntered()
 {
     QPushButton * buttonPressed = (QPushButton *) sender();
-    activeState->operationEntered(buttonPressed);
+    QString buttonValue = buttonPressed->text();
+
+    if (buttonPressed == ui->F_buttonExp || buttonPressed == ui->P_buttonExp)
+        buttonValue = "^";
+
+    activeState->operationEntered(buttonValue);
+}
+
+void AssemblyCalculator::operationEntered(const QString& value)
+{
+    activeState->operationEntered(value);
 }
 
 void AssemblyCalculator::equalsPressed()
@@ -142,4 +159,156 @@ void AssemblyCalculator::clearPressed()
 void AssemblyCalculator::negatePressed()
 {
     activeState->negatePressed();
+}
+
+void AssemblyCalculator::backspacePressed()
+{
+    activeState->backspacePressed();
+}
+
+void AssemblyCalculator::keyReleaseEvent(QKeyEvent * event)
+{
+    Qt::Key keyPressed = (Qt::Key) event->key();
+    QString value;
+
+    switch(keyPressed)
+    {
+    case Qt::Key_0:
+        value = "0";
+        break;
+
+    case Qt::Key_1:
+        value = "1";
+        break;
+
+    case Qt::Key_2:
+        value = "2";
+        break;
+
+    case Qt::Key_3:
+        value = "3";
+        break;
+
+    case Qt::Key_4:
+        value = "4";
+        break;
+
+    case Qt::Key_5:
+        value = "5";
+        break;
+
+    case Qt::Key_6:
+        value = "6";
+        break;
+
+    case Qt::Key_7:
+        value = "7";
+        break;
+
+    case Qt::Key_8:
+        value = "8";
+        break;
+
+    case Qt::Key_9:
+        value = "9";
+        break;
+
+    case Qt::Key_A:
+        value = "A";
+        break;
+
+    case Qt::Key_B:
+        value = "B";
+        break;
+
+    case Qt::Key_C:
+        value = "C";
+        break;
+
+    case Qt::Key_D:
+        value = "D";
+        break;
+
+    case Qt::Key_E:
+        value = "E";
+        break;
+
+    case Qt::Key_F:
+        value = "F";
+        break;
+
+    case Qt::Key_Comma:
+    case Qt::Key_Period:
+        value = ".";
+        break;
+
+    case Qt::Key_Plus:
+        value = "+";
+        break;
+
+    case Qt::Key_Minus:
+        value = "-";
+        break;
+
+    case Qt::Key_Asterisk:
+        value = "×";
+        break;
+
+    case Qt::Key_Slash:
+        value = "÷";
+        break;
+
+    case Qt::Key_Enter:
+        value = "=";
+        break;
+
+    case Qt::Key_Backspace:
+        value = "backspace";
+        break;
+
+    case Qt::Key_Escape:
+        value = "clear";
+        break;
+    }
+
+    if (value == "=")
+        equalsPressed();
+    else if (value == "backspace")
+        backspacePressed();
+    else if (value == "clear")
+        clearPressed();
+    else if (isValueKey(keyPressed))
+        valueEntered(value);
+    else if (isOperationKey(keyPressed))
+        operationEntered(value);
+}
+
+bool AssemblyCalculator::isValueKey(Qt::Key key) const
+{
+    return (key == Qt::Key_0 ||
+            key == Qt::Key_1 ||
+            key == Qt::Key_2 ||
+            key == Qt::Key_3 ||
+            key == Qt::Key_4 ||
+            key == Qt::Key_5 ||
+            key == Qt::Key_6 ||
+            key == Qt::Key_7 ||
+            key == Qt::Key_8 ||
+            key == Qt::Key_9 ||
+            key == Qt::Key_A ||
+            key == Qt::Key_B ||
+            key == Qt::Key_C ||
+            key == Qt::Key_D ||
+            key == Qt::Key_E ||
+            key == Qt::Key_F ||
+            key == Qt::Key_Comma ||
+            key == Qt::Key_Period);
+}
+
+bool AssemblyCalculator::isOperationKey(Qt::Key key) const
+{
+    return (key == Qt::Key_Plus ||
+            key == Qt::Key_Minus ||
+            key == Qt::Key_Asterisk ||
+            key == Qt::Key_Slash);
 }
