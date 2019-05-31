@@ -26,35 +26,6 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QPushButton" name="buttonFloating">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>Open Sans</family>
-        <pointsize>11</pointsize>
-        <italic>false</italic>
-       </font>
-      </property>
-      <property name="focusPolicy">
-       <enum>Qt::NoFocus</enum>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
-	background: none;
-	border: 0;
-}</string>
-      </property>
-      <property name="text">
-       <string>Floating Point</string>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="1">
      <widget class="QPushButton" name="buttonProgrammer">
       <property name="sizePolicy">
@@ -84,6 +55,35 @@
       </property>
      </widget>
     </item>
+    <item row="0" column="0">
+     <widget class="QPushButton" name="buttonFloating">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Open Sans</family>
+        <pointsize>11</pointsize>
+        <italic>false</italic>
+       </font>
+      </property>
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+	background: none;
+	border: 0;
+}</string>
+      </property>
+      <property name="text">
+       <string>Floating Point</string>
+      </property>
+     </widget>
+    </item>
     <item row="1" column="0" colspan="2">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="sizePolicy">
@@ -102,38 +102,7 @@
       </property>
       <widget class="QWidget" name="pageFloating">
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="6" column="1">
-         <widget class="QPushButton" name="F_button0">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <family>Open Sans</family>
-            <pointsize>14</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton {
-	color: black;
-	background-color: #fbfbfb;
-	border: 0;
-}</string>
-          </property>
-          <property name="text">
-           <string>0</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
+        <item row="8" column="0">
          <widget class="QPushButton" name="F_button1">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -164,8 +133,38 @@
           </property>
          </widget>
         </item>
-        <item row="4" column="2">
-         <widget class="QPushButton" name="F_button6">
+        <item row="9" column="0">
+         <widget class="QPushButton" name="F_buttonNeg">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <pointsize>11</pointsize>
+            <italic>false</italic>
+           </font>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+	color: black;
+	background-color: #f3f3f3;
+	border: 0;
+}</string>
+          </property>
+          <property name="text">
+           <string>±</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0">
+         <widget class="QPushButton" name="F_button4">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
             <horstretch>0</horstretch>
@@ -191,12 +190,12 @@
 }</string>
           </property>
           <property name="text">
-           <string>6</string>
+           <string>4</string>
           </property>
          </widget>
         </item>
-        <item row="6" column="2">
-         <widget class="QPushButton" name="F_buttonPoint">
+        <item row="3" column="1">
+         <widget class="QPushButton" name="F_buttonClear_3">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
             <horstretch>0</horstretch>
@@ -221,11 +220,164 @@
 }</string>
           </property>
           <property name="text">
-           <string>.</string>
+           <string>sin</string>
           </property>
          </widget>
         </item>
-        <item row="5" column="1">
+        <item row="6" column="1">
+         <widget class="QPushButton" name="F_button8">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <pointsize>14</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+	color: black;
+	background-color: #fbfbfb;
+	border: 0;
+}</string>
+          </property>
+          <property name="text">
+           <string>8</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QPushButton" name="F_buttonClear_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <pointsize>11</pointsize>
+            <italic>false</italic>
+           </font>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+	color: black;
+	background-color: #f3f3f3;
+	border: 0;
+}</string>
+          </property>
+          <property name="text">
+           <string>log</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="3">
+         <widget class="QPushButton" name="F_buttonMul">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <pointsize>11</pointsize>
+            <italic>false</italic>
+           </font>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+	color: black;
+	background-color: #f3f3f3;
+	border: 0;
+}</string>
+          </property>
+          <property name="text">
+           <string>×</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="2">
+         <widget class="QPushButton" name="F_button9">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <pointsize>14</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+	color: black;
+	background-color: #fbfbfb;
+	border: 0;
+}</string>
+          </property>
+          <property name="text">
+           <string>9</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="1">
+         <widget class="QPushButton" name="F_button0">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <pointsize>14</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+	color: black;
+	background-color: #fbfbfb;
+	border: 0;
+}</string>
+          </property>
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1">
          <widget class="QPushButton" name="F_button2">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -256,7 +408,37 @@
           </property>
          </widget>
         </item>
-        <item row="5" column="2">
+        <item row="5" column="1">
+         <widget class="QPushButton" name="F_buttonSqrt">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <pointsize>11</pointsize>
+            <italic>false</italic>
+           </font>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+	color: black;
+	background-color: #f3f3f3;
+	border: 0;
+}</string>
+          </property>
+          <property name="text">
+           <string>√</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="2">
          <widget class="QPushButton" name="F_button3">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -287,8 +469,8 @@
           </property>
          </widget>
         </item>
-        <item row="5" column="3">
-         <widget class="QPushButton" name="F_buttonAdd">
+        <item row="5" column="0">
+         <widget class="QPushButton" name="F_buttonClear">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
             <horstretch>0</horstretch>
@@ -313,12 +495,12 @@
 }</string>
           </property>
           <property name="text">
-           <string>+</string>
+           <string>C</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
-         <widget class="QPushButton" name="F_button8">
+        <item row="5" column="3">
+         <widget class="QPushButton" name="F_buttonDiv">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
             <horstretch>0</horstretch>
@@ -328,9 +510,8 @@
           <property name="font">
            <font>
             <family>Open Sans</family>
-            <pointsize>14</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
+            <pointsize>11</pointsize>
+            <italic>false</italic>
            </font>
           </property>
           <property name="focusPolicy">
@@ -339,12 +520,12 @@
           <property name="styleSheet">
            <string notr="true">QPushButton {
 	color: black;
-	background-color: #fbfbfb;
+	background-color: #f3f3f3;
 	border: 0;
 }</string>
           </property>
           <property name="text">
-           <string>8</string>
+           <string>÷</string>
           </property>
          </widget>
         </item>
@@ -378,37 +559,7 @@
           </property>
          </widget>
         </item>
-        <item row="4" column="3">
-         <widget class="QPushButton" name="F_buttonSub">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <family>Open Sans</family>
-            <pointsize>11</pointsize>
-            <italic>false</italic>
-           </font>
-          </property>
-          <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton {
-	color: black;
-	background-color: #f3f3f3;
-	border: 0;
-}</string>
-          </property>
-          <property name="text">
-           <string>-</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
+        <item row="7" column="1">
          <widget class="QPushButton" name="F_button5">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -439,7 +590,158 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="2">
+        <item row="9" column="2">
+         <widget class="QPushButton" name="F_buttonPoint">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <pointsize>11</pointsize>
+            <italic>false</italic>
+           </font>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+	color: black;
+	background-color: #f3f3f3;
+	border: 0;
+}</string>
+          </property>
+          <property name="text">
+           <string>.</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QPushButton" name="F_button7">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <pointsize>14</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+	color: black;
+	background-color: #fbfbfb;
+	border: 0;
+}</string>
+          </property>
+          <property name="text">
+           <string>7</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <widget class="QPushButton" name="F_buttonClear_4">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <pointsize>11</pointsize>
+            <italic>false</italic>
+           </font>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+	color: black;
+	background-color: #f3f3f3;
+	border: 0;
+}</string>
+          </property>
+          <property name="text">
+           <string>cos</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="3">
+         <widget class="QPushButton" name="F_buttonSub">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <pointsize>11</pointsize>
+            <italic>false</italic>
+           </font>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+	color: black;
+	background-color: #f3f3f3;
+	border: 0;
+}</string>
+          </property>
+          <property name="text">
+           <string>-</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="3">
+         <widget class="QPushButton" name="F_buttonAdd">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <pointsize>11</pointsize>
+            <italic>false</italic>
+           </font>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+	color: black;
+	background-color: #f3f3f3;
+	border: 0;
+}</string>
+          </property>
+          <property name="text">
+           <string>+</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="2">
          <widget class="QPushButton" name="F_buttonExp">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -469,7 +771,7 @@
           </property>
          </widget>
         </item>
-        <item row="6" column="3">
+        <item row="9" column="3">
          <widget class="QPushButton" name="F_buttonEquals">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -499,8 +801,8 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="3">
-         <widget class="QPushButton" name="F_buttonDiv">
+        <item row="7" column="2">
+         <widget class="QPushButton" name="F_button6">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
             <horstretch>0</horstretch>
@@ -510,8 +812,9 @@
           <property name="font">
            <font>
             <family>Open Sans</family>
-            <pointsize>11</pointsize>
-            <italic>false</italic>
+            <pointsize>14</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
            </font>
           </property>
           <property name="focusPolicy">
@@ -520,77 +823,17 @@
           <property name="styleSheet">
            <string notr="true">QPushButton {
 	color: black;
-	background-color: #f3f3f3;
+	background-color: #fbfbfb;
 	border: 0;
 }</string>
           </property>
           <property name="text">
-           <string>÷</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QPushButton" name="F_buttonSqrt">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <family>Open Sans</family>
-            <pointsize>11</pointsize>
-            <italic>false</italic>
-           </font>
-          </property>
-          <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton {
-	color: black;
-	background-color: #f3f3f3;
-	border: 0;
-}</string>
-          </property>
-          <property name="text">
-           <string>√</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QPushButton" name="F_buttonClear">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <family>Open Sans</family>
-            <pointsize>11</pointsize>
-            <italic>false</italic>
-           </font>
-          </property>
-          <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton {
-	color: black;
-	background-color: #f3f3f3;
-	border: 0;
-}</string>
-          </property>
-          <property name="text">
-           <string>C</string>
+           <string>6</string>
           </property>
          </widget>
         </item>
         <item row="3" column="3">
-         <widget class="QPushButton" name="F_buttonMul">
+         <widget class="QPushButton" name="F_buttonClear_5">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
             <horstretch>0</horstretch>
@@ -615,99 +858,7 @@
 }</string>
           </property>
           <property name="text">
-           <string>×</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="2">
-         <widget class="QPushButton" name="F_button9">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <family>Open Sans</family>
-            <pointsize>14</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton {
-	color: black;
-	background-color: #fbfbfb;
-	border: 0;
-}</string>
-          </property>
-          <property name="text">
-           <string>9</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QPushButton" name="F_button4">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <family>Open Sans</family>
-            <pointsize>14</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton {
-	color: black;
-	background-color: #fbfbfb;
-	border: 0;
-}</string>
-          </property>
-          <property name="text">
-           <string>4</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="0">
-         <widget class="QPushButton" name="F_buttonNeg">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <family>Open Sans</family>
-            <pointsize>11</pointsize>
-            <italic>false</italic>
-           </font>
-          </property>
-          <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton {
-	color: black;
-	background-color: #f3f3f3;
-	border: 0;
-}</string>
-          </property>
-          <property name="text">
-           <string>±</string>
+           <string>tan</string>
           </property>
          </widget>
         </item>
@@ -737,37 +888,6 @@
           </property>
           <property name="readOnly">
            <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QPushButton" name="F_button7">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <family>Open Sans</family>
-            <pointsize>14</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton {
-	color: black;
-	background-color: #fbfbfb;
-	border: 0;
-}</string>
-          </property>
-          <property name="text">
-           <string>7</string>
           </property>
          </widget>
         </item>
