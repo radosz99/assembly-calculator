@@ -195,7 +195,7 @@
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QPushButton" name="F_buttonClear_3">
+         <widget class="QPushButton" name="F_buttonSin">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
             <horstretch>0</horstretch>
@@ -256,7 +256,7 @@
          </widget>
         </item>
         <item row="3" column="0">
-         <widget class="QPushButton" name="F_buttonClear_2">
+         <widget class="QPushButton" name="F_buttonLog">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
             <horstretch>0</horstretch>
@@ -652,7 +652,7 @@
          </widget>
         </item>
         <item row="3" column="2">
-         <widget class="QPushButton" name="F_buttonClear_4">
+         <widget class="QPushButton" name="F_buttonCos">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
             <horstretch>0</horstretch>
@@ -833,7 +833,7 @@
          </widget>
         </item>
         <item row="3" column="3">
-         <widget class="QPushButton" name="F_buttonClear_5">
+         <widget class="QPushButton" name="F_buttonTan">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
             <horstretch>0</horstretch>

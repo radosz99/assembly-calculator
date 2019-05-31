@@ -8,6 +8,10 @@ extern "C" double * multiplication(double, double);
 extern "C" double * division(double, double);
 extern "C" double * exponentation(double, int);
 extern "C" double * squareRoot(double);
+extern "C" double * log(double);
+extern "C" double * sin(double);
+extern "C" double * cos(double);
+extern "C" double * tan(double);
 
 class FloatingPointCalculatorState : public CalculatorState
 {

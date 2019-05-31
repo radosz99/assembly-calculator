@@ -76,6 +76,10 @@ AssemblyCalculator::AssemblyCalculator(QWidget *parent) :
     connect(ui->F_buttonDiv, SIGNAL(released()), this, SLOT(operationEntered()));
     connect(ui->F_buttonExp, SIGNAL(released()), this, SLOT(operationEntered()));
     connect(ui->F_buttonSqrt, SIGNAL(released()), this, SLOT(operationEntered()));
+    connect(ui->F_buttonLog, SIGNAL(released()), this, SLOT(operationEntered()));
+    connect(ui->F_buttonSin, SIGNAL(released()), this, SLOT(operationEntered()));
+    connect(ui->F_buttonCos, SIGNAL(released()), this, SLOT(operationEntered()));
+    connect(ui->F_buttonTan, SIGNAL(released()), this, SLOT(operationEntered()));
     connect(ui->F_buttonEquals, SIGNAL(released()), this, SLOT(equalsPressed()));
     connect(ui->F_buttonClear, SIGNAL(released()), this, SLOT(clearPressed()));
     connect(ui->F_buttonNeg, SIGNAL(released()), this, SLOT(negatePressed()));
@@ -150,9 +154,16 @@ void AssemblyCalculator::operationEntered()
 
     if (buttonPressed == ui->F_buttonExp || buttonPressed == ui->P_buttonExp)
         buttonValue = "^";
+    else if (buttonValue == "log" || buttonValue == "sin" ||
+             buttonValue == "cos" || buttonValue == "tan")
+    {
+        // no log/sin/cos/tan operations defined for Programmer State
+        fState->operationEntered(buttonValue);
+        return;
+    }
     else if (buttonPressed == ui->P_buttonSquare)
     {
-        // no square operation defined in FP State
+        // no square operation defined for FP State
         buttonValue = "^2";
         pState->operationEntered(buttonValue);
         return;

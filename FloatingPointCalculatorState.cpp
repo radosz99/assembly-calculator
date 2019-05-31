@@ -57,6 +57,14 @@ void FloatingPointCalculatorState::operationEntered(const QString& buttonPressed
             selectedOperation = Operation::MUL;
         else if (buttonPressed == "÷")
             selectedOperation = Operation::DIV;
+        else if (buttonPressed == "^")
+        {
+            selectedOperation = Operation::EXP;
+            ui->F_buttonPoint->setEnabled(false);
+            ui->F_displayUpper->setText(QString::number(firstOperand) + " ^");
+            ui->F_displayMain->setText("");
+            return;
+        }
         else if (buttonPressed == "√")
         {
             selectedOperation = Operation::SQRT;
@@ -65,12 +73,25 @@ void FloatingPointCalculatorState::operationEntered(const QString& buttonPressed
             equalsPressed();
             return;
         }
-        else if (buttonPressed == "^")
+        else if (buttonPressed == "log" ||
+                 buttonPressed == "sin" ||
+                 buttonPressed == "cos" ||
+                 buttonPressed == "tan")
         {
-            selectedOperation = Operation::EXP;
-            ui->F_buttonPoint->setEnabled(false);
-            ui->F_displayUpper->setText(QString::number(firstOperand) + " ^");
+            if (buttonPressed == "√")
+                selectedOperation = Operation::SQRT;
+            else if (buttonPressed == "log")
+                selectedOperation = Operation::LOG;
+            else if (buttonPressed == "sin")
+                selectedOperation = Operation::SIN;
+            else if (buttonPressed == "cos")
+                selectedOperation = Operation::COS;
+            else if (buttonPressed == "tan")
+                selectedOperation = Operation::TAN;
+
+            ui->F_displayUpper->setText(buttonPressed + "(" + QString::number(firstOperand) + ")");
             ui->F_displayMain->setText("");
+            equalsPressed();
             return;
         }
 
@@ -112,6 +133,14 @@ void FloatingPointCalculatorState::equalsPressed()
             result = division(firstOperand, secondOperand);
         else if (selectedOperation == Operation::SQRT)
             result = squareRoot(firstOperand);
+        else if (selectedOperation == Operation::LOG)
+            result = log(firstOperand);
+        else if (selectedOperation == Operation::SIN)
+            result = sin(firstOperand);
+        else if (selectedOperation == Operation::COS)
+            result = cos(firstOperand);
+        else if (selectedOperation == Operation::TAN)
+            result = tan(firstOperand);
         else if (selectedOperation == Operation::EXP)
         {
             result = exponentation(firstOperand, (int) secondOperand);

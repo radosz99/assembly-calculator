@@ -8,6 +8,10 @@ result: .double 0
 .global division
 .global exponentation
 .global squareRoot
+.global log
+.global sin
+.global cos
+.global tan
 
 # ---------------------------
 # SUMOWANIE
@@ -24,7 +28,7 @@ fldl 8(%ebp)
 fldl 16(%ebp)
 faddp
 subl $8, %esp
-fstpl result          
+fstpl result
 movl $result, %eax
 
 movl %ebp, %esp
@@ -150,6 +154,92 @@ movl %esp, %ebp
 finit
 fldl 8(%ebp)
 fsqrt
+fstpl result
+movl $result, %eax
+
+movl %ebp, %esp
+popl %ebp
+ret
+
+# ---------------------------
+# LOGARYTM NATURALNY
+# log(8(%ebp))
+# double * log(double)
+# ---------------------------
+.type log, @function
+log:
+pushl %ebp
+movl %esp, %ebp
+
+finit
+fld1
+fldl 8(%ebp)
+fyl2x
+fldl2e
+fdivrp
+fstpl result
+movl $result, %eax
+
+movl %ebp, %esp
+popl %ebp
+ret
+
+# ---------------------------
+# SINUS
+# sin(8(%ebp))
+# double * sin(double)
+# ---------------------------
+.type sin, @function
+sin:
+pushl %ebp
+movl %esp, %ebp
+
+finit
+fldl 8(%ebp)
+fsin
+fstpl result
+movl $result, %eax
+
+movl %ebp, %esp
+popl %ebp
+ret
+
+# ---------------------------
+# COSINUS
+# cos(8(%ebp))
+# double * cos(double)
+# ---------------------------
+.type cos, @function
+cos:
+pushl %ebp
+movl %esp, %ebp
+
+finit
+fldl 8(%ebp)
+fcos
+fstpl result
+movl $result, %eax
+
+movl %ebp, %esp
+popl %ebp
+ret
+
+# ---------------------------
+# TANGENS
+# cos(8(%ebp))
+# double * cos(double)
+# ---------------------------
+.type tan, @function
+tan:
+pushl %ebp
+movl %esp, %ebp
+
+finit
+fldl 8(%ebp)
+fcos
+fldl 8(%ebp)
+fsin
+fdivp
 fstpl result
 movl $result, %eax
 

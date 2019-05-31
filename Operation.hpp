@@ -10,7 +10,11 @@ enum class Operation
     DIV,
     SQRT,
     EXP,
-    SQUARE
+    SQUARE,
+    LOG,
+    SIN,
+    COS,
+    TAN
 };
 
 #endif // OPERATION
