@@ -116,7 +116,7 @@ void FloatingPointCalculatorState::equalsPressed()
 {
     if (selectedOperation != Operation::NONE)
     {
-        double * result;
+        double result;
         double secondOperand = ui->F_displayMain->text().toDouble();
         QString operationString = ui->F_displayUpper->text();
         operationString += " " + ui->F_displayMain->text();
@@ -147,9 +147,9 @@ void FloatingPointCalculatorState::equalsPressed()
             ui->F_buttonPoint->setEnabled(true);
         }
 
-        ui->F_displayMain->setText(QString::number(*result));
+        ui->F_displayMain->setText(QString::number(result));
         selectedOperation = Operation::NONE;
-        firstOperand = *result;
+        firstOperand = result;
         resultDisplayed = true;
     }
 }

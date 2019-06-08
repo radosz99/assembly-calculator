@@ -1,6 +1,3 @@
-.data
-result: .double 0
-
 .text
 .global addition
 .global subtraction
@@ -16,7 +13,7 @@ result: .double 0
 # ---------------------------
 # SUMOWANIE
 # 8(%ebp) + 16(%ebp)
-# double * addition(double, double)
+# double addition(double, double)
 # ---------------------------
 .type addition, @function
 addition:
@@ -27,9 +24,6 @@ finit
 fldl 8(%ebp)
 fldl 16(%ebp)
 faddp
-subl $8, %esp
-fstpl result
-movl $result, %eax
 
 movl %ebp, %esp
 popl %ebp
@@ -38,7 +32,7 @@ ret
 # ---------------------------
 # ODEJMOWANIE
 # 8(%ebp) - 16(%ebp)
-# double * subtraction(double, double)
+# double subtraction(double, double)
 # ---------------------------
 .type subtraction, @function
 subtraction:
@@ -49,8 +43,6 @@ finit
 fldl 8(%ebp)
 fldl 16(%ebp)
 fsubrp
-fstpl result
-movl $result, %eax
 
 movl %ebp, %esp
 popl %ebp
@@ -59,7 +51,7 @@ ret
 # ---------------------------
 # MNOŻENIE
 # 8(%ebp) * 16(%ebp)
-# double * multiplication(double, double)
+# double multiplication(double, double)
 # ---------------------------
 .type multiplication, @function
 multiplication:
@@ -70,8 +62,6 @@ finit
 fldl 8(%ebp)
 fldl 16(%ebp)
 fmulp
-fstpl result
-movl $result, %eax
 
 movl %ebp, %esp
 popl %ebp
@@ -80,7 +70,7 @@ ret
 # ---------------------------
 # DZIELENIE
 # 8(%ebp) / 16(%ebp)
-# double * division(double, double)
+# double division(double, double)
 # ---------------------------
 .type division, @function
 division:
@@ -91,8 +81,6 @@ finit
 fldl 8(%ebp)
 fldl 16(%ebp)
 fdivrp
-fstpl result
-movl $result, %eax
 
 movl %ebp, %esp
 popl %ebp
@@ -101,7 +89,7 @@ ret
 # ---------------------------
 # POTĘGOWANIE
 # 8(%ebp) ^ 16(%ebp)
-# double * exponentation(double, int)
+# double exponentation(double, int)
 # ---------------------------
 .type exponentation, @function
 exponentation:
@@ -134,9 +122,6 @@ cmpl $0, 16(%ebp)
 jne expLoop
 
 expEnd:
-fstpl result
-movl $result, %eax
-
 movl %ebp, %esp
 popl %ebp
 ret
@@ -144,7 +129,7 @@ ret
 # ---------------------------
 # PIERWIASTEK KWADRATOWY
 # sqrt(8(%ebp))
-# double * squareRoot(double)
+# double squareRoot(double)
 # ---------------------------
 .type squareRoot, @function
 squareRoot:
@@ -154,8 +139,6 @@ movl %esp, %ebp
 finit
 fldl 8(%ebp)
 fsqrt
-fstpl result
-movl $result, %eax
 
 movl %ebp, %esp
 popl %ebp
@@ -164,7 +147,7 @@ ret
 # ---------------------------
 # LOGARYTM NATURALNY
 # log(8(%ebp))
-# double * log(double)
+# double log(double)
 # ---------------------------
 .type log, @function
 log:
@@ -177,8 +160,6 @@ fldl 8(%ebp)
 fyl2x
 fldl2e
 fdivrp
-fstpl result
-movl $result, %eax
 
 movl %ebp, %esp
 popl %ebp
@@ -187,7 +168,7 @@ ret
 # ---------------------------
 # SINUS
 # sin(8(%ebp))
-# double * sin(double)
+# double sin(double)
 # ---------------------------
 .type sin, @function
 sin:
@@ -197,8 +178,6 @@ movl %esp, %ebp
 finit
 fldl 8(%ebp)
 fsin
-fstpl result
-movl $result, %eax
 
 movl %ebp, %esp
 popl %ebp
@@ -207,7 +186,7 @@ ret
 # ---------------------------
 # COSINUS
 # cos(8(%ebp))
-# double * cos(double)
+# double cos(double)
 # ---------------------------
 .type cos, @function
 cos:
@@ -217,8 +196,6 @@ movl %esp, %ebp
 finit
 fldl 8(%ebp)
 fcos
-fstpl result
-movl $result, %eax
 
 movl %ebp, %esp
 popl %ebp
@@ -227,7 +204,7 @@ ret
 # ---------------------------
 # TANGENS
 # cos(8(%ebp))
-# double * cos(double)
+# double cos(double)
 # ---------------------------
 .type tan, @function
 tan:
@@ -240,8 +217,6 @@ fcos
 fldl 8(%ebp)
 fsin
 fdivp
-fstpl result
-movl $result, %eax
 
 movl %ebp, %esp
 popl %ebp
