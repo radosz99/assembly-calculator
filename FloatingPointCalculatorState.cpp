@@ -98,11 +98,13 @@ void FloatingPointCalculatorState::operationEntered(const QString& buttonPressed
         ui->F_displayUpper->setText(QString::number(firstOperand) + " " + buttonPressed);
         ui->F_displayMain->setText("");
     }
-    else
+    else if (selectedOperation != Operation::NONE)
     {
-        if (buttonPressed == "-")
-            negatePressed();
+        equalsPressed();
+        operationEntered(buttonPressed);
     }
+    else if (buttonPressed == "-")
+            negatePressed();
 }
 
 void FloatingPointCalculatorState::backspacePressed()
