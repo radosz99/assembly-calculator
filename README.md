@@ -10,9 +10,6 @@ Assembly Calculator is an application created as a part of Computer Architecture
 * Qt 5.5.1 32-bit
 * Linux 32-bit Libraries
 
-## Docker
-soon
-
 <hr>
 <p align="center">
 Kamil Turek, Radosław Lis<br/>
