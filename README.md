@@ -13,6 +13,8 @@ Assembly Calculator is an application created as a part of Computer Architecture
 ## Docker
 soon
 
-## Credits
+<hr>
+<p align="center">
 Kamil Turek, Radosław Lis<br/>
 Wrocław 2019
+</p>
