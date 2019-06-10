@@ -204,7 +204,7 @@ ret
 # ---------------------------
 # TANGENS
 # cos(8(%ebp))
-# double tan(double)
+# double cos(double)
 # ---------------------------
 .type tan, @function
 tan:

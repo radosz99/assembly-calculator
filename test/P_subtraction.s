@@ -84,12 +84,12 @@ mov2End:
     movl lengthNumber_2, %eax
 
 designateLoopLenght:
-        movb $0, carry	# zerujemy ewentualne przeniesienie
-        movl lengthNumber_1, %edi
-        cmpl lengthNumber_2, %edi
-        jg calculatorBegin
-        movl lengthNumber_2, %edi # wyznaczona ilosc petli
-        movl %edi, lengthNumber # dlugosc wyniku
+	movb $0, carry	# zerujemy ewentualne przeniesienie
+	movl lengthNumber_1, %edi	
+	cmpl lengthNumber_2, %edi
+	jg calculatorBegin
+	movl lengthNumber_2, %edi # wyznaczona ilosc petli 
+	movl %edi, lengthNumber # dlugosc wyniku
     movl %edi, size
 
 calculatorBegin:

@@ -6,10 +6,13 @@
 .lcomm number_1, BYTES
 .lcomm number_2, BYTES
 .lcomm base, LENGTH
+.lcomm operation, LENGTH
 .lcomm answer_1, LENGTH
 
 .lcomm lengthNumber_1, LENGTH
 .lcomm lengthNumber_2, LENGTH
+.lcomm lengthNumber1, LENGTH
+.lcomm lengthNumber2, LENGTH
 .lcomm lengthNumber, LENGTH
 .lcomm result, BYTES_2
 .lcomm carry, BYTE
@@ -17,15 +20,18 @@
 .section .data
     size: .long 0
     sizeCounter: .long 0
+    sizeFinalResult: .long 128
+    lengthResult: .long 0
 
 .section .text
-.global P_subtraction
-.type P_subtraction, @function
-P_subtraction:
+.global P_division
+.type P_division, @function
+P_division:
     pushl %ebp
     movl %esp, %ebp
     pushl %ebx
 
+askBase:
     movl 8(%ebp), %ecx
     movl %ecx, base
 
@@ -62,11 +68,10 @@ movNumber1:
     cmpb $0, %dl
     je mov1End
     jmp movNumber1
-
 mov1End:
     subl $3, %edi
-    movl %edi, lengthNumber_1
-
+    movl %edi, lengthNumber1
+   
 askSecondNumber:
     movl 16(%ebp), %ecx
     movl $0, %edi
@@ -77,19 +82,72 @@ movNumber2:
     cmpb $0, %dl
     je mov2End
     jmp movNumber2
-
 mov2End:
     subl $3, %edi
-    movl %edi, lengthNumber_2
-    movl lengthNumber_2, %eax
+    movl %edi, lengthNumber2
+    xorl %eax, %eax
+
+prepareFinalResult:
+    movl $'0', result(,%eax,1)
+    incl %eax
+    cmpl %eax, sizeFinalResult
+    jg prepareFinalResult
+	movb $0xA, result(,%eax,1) # lf
+	incl %eax
+	movb $0xD, result(,%eax,1) # cr
+
+operationBegin:
+    xorl %eax, %eax
+    movl lengthNumber1, %eax
+    movl %eax, lengthNumber_1
+    xorl %eax, %eax
+    movl lengthNumber2, %eax
+    movl %eax, lengthNumber_2
+    cmpl lengthNumber1, %eax
+    jg end
+    cmpl lengthNumber1, %eax
+    jl designateLoopLenght
+
+checkIfHigher:
+    xorl %eax, %eax
+    xorl %ebx, %ebx
+    xorl %ecx, %ecx
+    movl $0, %edx
+    movl lengthNumber2, %ecx
+
+checkIfHigherBegin:
+    cmpl %edx, %ecx
+    jge checkIfHigherBegin2
+    jmp designateLoopLenght
+
+checkIfHigherBegin2:
+    xorl %ebx, %ebx
+    movb number_1(,%edx,1), %bl
+    pushl $base
+	pushl %ebx
+	call charToInt
+	addl $8, %esp
+    
+    movb number_2(,%edx,1), %bl
+    pushl %eax
+    pushl $base
+	pushl %ebx
+	call charToInt
+	addl $8, %esp
+	
+	movl %eax, %ebx	# w ebx mamy teraz cyfre z drugiej liczby
+	popl %eax		# przywracamy cyfre z pierwszej liczby
+
+    incl %edx
+    cmpl %eax, %ebx
+    je checkIfHigherBegin
+    cmpl %eax, %ebx
+    jg end
 
 designateLoopLenght:
-        movb $0, carry	# zerujemy ewentualne przeniesienie
-        movl lengthNumber_1, %edi
-        cmpl lengthNumber_2, %edi
-        jg calculatorBegin
-        movl lengthNumber_2, %edi # wyznaczona ilosc petli
-        movl %edi, lengthNumber # dlugosc wyniku
+	movb $0, carry	# zerujemy ewentualne przeniesienie
+	movl lengthNumber_1, %edi	
+	movl %edi, lengthNumber # dlugosc wyniku
     movl %edi, size
 
 calculatorBegin:
@@ -148,8 +206,6 @@ secondNumberEnd:
 
 subtractor:
 	subl %ebx, %eax	# odejmujemy wartosci rejestrow
-    xorl %ecx, %ecx
-    movl carry, %ecx
 	subl carry, %eax # odejmujemy ewentualna pozyczke
 	movb $0, carry 
 	cmpl $0, %eax
@@ -162,16 +218,67 @@ savingResult:
 	pushl %eax
 	call intToChar
 	addl $4, %esp
-
-	movb %al, result(,%edi,1) #zapisujemy wynik do result
+    
+    xorl %edx, %edx
+    incl lengthNumber_1
+    movl lengthNumber_1, %edx
+    movb $0, number_1(,%edx,1)
+	movb %al, number_1(,%edx,1) #zapisujemy wynik do result
 	decl %edi # i dekrementujemy nasz rejestr przechodzacy po result
-
+    decl lengthNumber_1
 	jmp calculatorBegin
 
-calculatorEnd:
+calculatorEnd:    
     call findInitialZeros
+    xorl %eax, %eax
+    movl $0, carry
+    xorl %edx, %edx
 
-calculatorEnd1:
+countResult:
+    movl sizeFinalResult, %edx
+    subl $1, %edx
+
+countResultBegin:
+    xorl %ebx, %ebx
+    movb result(,%edx,1), %bl
+    pushl $base
+	pushl %ebx
+	call charToInt
+	addl $8, %esp
+
+    xorl %ebx, %ebx
+    cmpl %ebx, carry
+    jg countResultBegin1
+    addb $1, %al
+
+countResultBegin1:
+    addb carry, %al
+    movb $0, carry
+
+    cmpl base, %eax
+    jge countResult1
+    jmp countResultEnd
+
+countResult1:
+    subb base, %al
+    pushl %eax
+	call intToChar
+	addl $4, %esp
+
+    movb %al,result(,%edx,1)
+    movl $1, carry
+    decl %edx
+    jmp countResultBegin
+    
+countResultEnd:
+    pushl %eax
+	call intToChar
+	addl $4, %esp
+    movb %al,result(,%edx,1)
+    jmp operationBegin
+
+end:   
+    call findInitialZeros1
     movl $result, %eax
     popl %ebx
     movl %ebp, %esp
@@ -231,27 +338,77 @@ findInitialZeros:
 findInitialZerosBegin:
     movl $0, %edx #indeksowanie od zera, w mnozeniu od 1
     decl sizeCounter
-    movb result(,%edx,1), %al
+    movb number_1(,%edx,1), %al
     incl %edx
+    cmpl $0, lengthNumber1
+    je findInitialZerosEnd
     cmpl $'0', %eax
-    je deleteInitialZeros
+    je shorterLength
     jmp findInitialZerosEnd
     
+shorterLength:
+    decl lengthNumber1
+
 deleteInitialZeros:
     xorl %eax, %eax
-    movb result(,%edx,1), %al
+    movb number_1(,%edx,1), %al
     decl %edx
-    movb %al, result(,%edx,1)
+    movb %al, number_1(,%edx,1)
     addl $2, %edx
     cmpl sizeCounter, %edx
     jle deleteInitialZeros
 
 deleteRedundand:
     decl %edx
-    movl $0, result(,%edx,1)
+    movl $0, number_1(,%edx,1)
     jmp findInitialZerosBegin
 
 findInitialZerosEnd:
+    #movl %ebp, %esp
+	#popl %ebp
+	ret
+
+
+.type findInitialZeros1,@function
+findInitialZeros1:
+    xorl %edx, %edx
+    xorl %eax, %eax
+    xorl %ecx, %ecx
+    movl sizeFinalResult, %eax
+    movl %eax, lengthResult
+    movl %eax, sizeCounter
+    addl $3, sizeCounter
+    xorl %eax, %eax
+
+findInitialZerosBegin1:
+    movl $0, %edx #indeksowanie od zera, w mnozeniu od 1
+    decl sizeCounter
+    movb result(,%edx,1), %al
+    incl %edx
+    cmpl $0, lengthResult
+    je findInitialZerosEnd1
+    cmpl $'0', %eax
+    je shorterLength1
+    jmp findInitialZerosEnd1
+    
+shorterLength1:
+    decl lengthResult
+
+deleteInitialZeros1:
+    xorl %eax, %eax
+    movb result(,%edx,1), %al
+    decl %edx
+    movb %al, result(,%edx,1)
+    addl $2, %edx
+    cmpl sizeCounter, %edx
+    jle deleteInitialZeros1
+
+deleteRedundand1:
+    decl %edx
+    movl $0, result(,%edx,1)
+    jmp findInitialZerosBegin1
+
+findInitialZerosEnd1:
     #movl %ebp, %esp
 	#popl %ebp
 	ret
