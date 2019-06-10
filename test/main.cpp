@@ -19,7 +19,7 @@ extern "C" char * P_subtraction(char base, const char * number1, const char * nu
 
 int main(int argc, char const *argv[])
 {
-    char * result = P_subtraction('b', "10000\n", "111\n");
+    char * result = P_addition('b', "11110\n", "1\n");
 
     std::cout << result << '\n';
     

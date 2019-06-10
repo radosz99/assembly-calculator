@@ -92,10 +92,9 @@ designateLoopLenght:
         jg calculatorBeginStart
         movl lengthNumber_2, %edi # wyznaczona ilosc petli
         movl %edi, lengthNumber # dlugosc wyniku
-        movl %edi, size
-        incl %edi	# jesli dodawanie to nalezy powiekszyc o 1, gdyz z n+x (gdzie x<n) moze powstac n+1
 
 calculatorBeginStart:
+        movl %edi, size
         incl %edi
 
 calculatorBegin:
